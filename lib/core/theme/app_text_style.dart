@@ -7,9 +7,9 @@ class AppTextStyles {
   static const String fontFamily = 'Inter';
 
   // =========================
-  // AUTH TITLE
+  // TITLE
   // =========================
-  static TextStyle get authTitle => const TextStyle(
+  static TextStyle get title => const TextStyle(
     fontFamily: fontFamily,
     fontWeight: FontWeight.w700,
     fontSize: 30,
@@ -17,18 +17,14 @@ class AppTextStyles {
     color: AppColors.textPrimary,
   );
 
-  static TextStyle authTitleWith({
-    Color? color,
-    double? size,
-    FontWeight? weight,
-  }) {
-    return authTitle.copyWith(color: color, fontSize: size, fontWeight: weight);
+  static TextStyle titleWith({Color? color, double? size, FontWeight? weight}) {
+    return title.copyWith(color: color, fontSize: size, fontWeight: weight);
   }
 
   // =========================
-  // AUTH SUBTITLE
+  // SUBTITLE
   // =========================
-  static TextStyle get authSubtitle => const TextStyle(
+  static TextStyle get subtitle => const TextStyle(
     fontFamily: fontFamily,
     fontWeight: FontWeight.w400,
     fontSize: 16,

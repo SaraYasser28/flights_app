@@ -13,6 +13,7 @@ class AppColors {
   // Semantic
   static const Color red = Color(0xFFDC2626);
   static const Color green = Color(0xFF10B981);
+  static const Color orange = Color(0xFFF5B03A);
 
   // Text Colors
   static const Color textPrimary = Color(0xFF0F172A);
@@ -21,4 +22,7 @@ class AppColors {
   static const Color inputBackground = Color(0xFFF8FAFC);
   static const Color inputBorder = Color(0xFFE2E8F0);
   static const Color checkBoxBorder = Color(0xFFCBD5E1);
+
+  // icon Color
+  static const Color backIcon = Color(0xFF475569);
 }

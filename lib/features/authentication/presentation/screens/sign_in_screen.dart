@@ -37,7 +37,7 @@ class SignInScreen extends StatelessWidget {
                   const SizedBox(width: 12),
                   Text(
                     "Skiee",
-                    style: AppTextStyles.authTitle.copyWith(
+                    style: AppTextStyles.title.copyWith(
                       fontSize: 20,
                       color: AppColors.primary,
                     ),
@@ -45,11 +45,11 @@ class SignInScreen extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 52),
-              Text("Welcome Back", style: AppTextStyles.authTitle),
+              Text("Welcome Back", style: AppTextStyles.title),
               const SizedBox(height: 8),
               Text(
                 "Sign in to continue booking your next adventure",
-                style: AppTextStyles.authSubtitle,
+                style: AppTextStyles.subtitle,
               ),
               const SizedBox(height: 32),
               InputTextField(
@@ -66,7 +66,12 @@ class SignInScreen extends StatelessWidget {
                 suffix: SvgPicture.asset(AppIcons.obscure, width: 20),
               ),
               const SizedBox(height: 34),
-              PrimaryButton(text: "Sign In", onTap: () {}),
+              PrimaryButton(
+                text: "Sign In",
+                onTap: () {
+                  Navigator.pushNamed(context, AppRoutes.profile);
+                },
+              ),
               const SizedBox(height: 28),
               const OrDivider(),
               const SizedBox(height: 32),

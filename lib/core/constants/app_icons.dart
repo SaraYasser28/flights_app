@@ -1,5 +1,9 @@
 // ignore_for_file: prefer_single_quotes
 
+import 'package:flutter/material.dart';
+
+import '../theme/app_colors.dart';
+
 class AppIcons {
   AppIcons._();
 
@@ -17,7 +21,6 @@ class AppIcons {
   static const String france = "${_basePath}france.svg";
   static const String google = "${_basePath}google.svg";
   static const String home = "${_basePath}home.svg";
-  static const String icon = "${_basePath}icon.svg";
   static const String landing = "${_basePath}landing.svg";
   static const String legroom = "${_basePath}legroom.svg";
   static const String lock = "${_basePath}lock.svg";
@@ -28,4 +31,9 @@ class AppIcons {
   static const String usb = "${_basePath}usb.svg";
   static const String video = "${_basePath}video.svg";
   static const String wifi = "${_basePath}wifi.svg";
+  static const String backIcon = "${_basePath}back.svg";
+  static const Icon chevronRight = Icon(
+    Icons.chevron_right,
+    color: AppColors.checkBoxBorder,
+  );
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../features/authentication/presentation/screens/sign_in_screen.dart';
 import '../../features/authentication/presentation/screens/sign_up_screen.dart';
+import '../../features/profile/presentation/screens/profile_screen.dart';
 import 'app_routes.dart';
 
 class AppRouter {
@@ -13,6 +14,9 @@ class AppRouter {
 
       case AppRoutes.signUp:
         return MaterialPageRoute(builder: (_) => const SignUpScreen());
+
+      case AppRoutes.profile:
+        return MaterialPageRoute(builder: (_) => const ProfileScreen());
 
       default:
         return MaterialPageRoute(

@@ -4,10 +4,10 @@ import '../../../../core/constants/app_icons.dart';
 import '../../../../core/routing/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_style.dart';
+import '../../../../core/widgets/custom_app_bar.dart';
 import '../../../../core/widgets/input_text_field.dart';
 import '../../../../core/widgets/primary_button.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 import '../widgets/or_divider.dart';
 import '../widgets/social_button.dart';
 
@@ -18,18 +18,22 @@ class SignUpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.white,
+      appBar: CustomAppBar(
+        backgroundColor: AppColors.white,
+        showBackButton: true,
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 32),
-              Text("Create Account", style: AppTextStyles.authTitle),
+              const SizedBox(height: 8),
+              Text("Create Account", style: AppTextStyles.title),
               const SizedBox(height: 8),
               Text(
                 "Join us and start exploring the world",
-                style: AppTextStyles.authSubtitle,
+                style: AppTextStyles.subtitle,
               ),
               const SizedBox(height: 24),
               InputTextField(
@@ -101,7 +105,12 @@ class SignUpScreen extends StatelessWidget {
 
               const SizedBox(height: 16),
 
-              PrimaryButton(text: "Sign Up", onTap: () {}),
+              PrimaryButton(
+                text: "Sign Up",
+                onTap: () {
+                  Navigator.pushNamed(context, AppRoutes.profile);
+                },
+              ),
               const SizedBox(height: 32),
               const OrDivider(),
               const SizedBox(height: 32),
