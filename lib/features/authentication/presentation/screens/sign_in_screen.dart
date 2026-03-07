@@ -69,7 +69,7 @@ class SignInScreen extends StatelessWidget {
               PrimaryButton(
                 text: "Sign In",
                 onTap: () {
-                  Navigator.pushNamed(context, AppRoutes.profile);
+                  Navigator.pushNamed(context, AppRoutes.home);
                 },
               ),
               const SizedBox(height: 28),

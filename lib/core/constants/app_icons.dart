@@ -36,4 +36,6 @@ class AppIcons {
     Icons.chevron_right,
     color: AppColors.checkBoxBorder,
   );
+  static const String aeroplane = "${_basePath}aeroplane.svg";
+  static const String economy = "${_basePath}economy.svg";
 }

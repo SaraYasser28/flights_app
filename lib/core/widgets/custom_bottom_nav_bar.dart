@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
+import '../constants/app_icons.dart';
 
 class CustomBottomNavBar extends StatelessWidget {
   final int currentIndex;
@@ -18,14 +21,17 @@ class CustomBottomNavBar extends StatelessWidget {
       selectedItemColor: Colors.blue,
       unselectedItemColor: Colors.grey,
       showUnselectedLabels: true,
-      items: const [
-        BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: "Home"),
+      items: [
         BottomNavigationBarItem(
-          icon: Icon(Icons.confirmation_number_outlined),
+          icon: SvgPicture.asset(AppIcons.home),
+          label: "Home",
+        ),
+        BottomNavigationBarItem(
+          icon: SvgPicture.asset(AppIcons.booked),
           label: "Booked",
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.person_outline),
+          icon: SvgPicture.asset(AppIcons.profile),
           label: "Profile",
         ),
       ],

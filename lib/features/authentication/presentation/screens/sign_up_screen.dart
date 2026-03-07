@@ -108,7 +108,7 @@ class SignUpScreen extends StatelessWidget {
               PrimaryButton(
                 text: "Sign Up",
                 onTap: () {
-                  Navigator.pushNamed(context, AppRoutes.profile);
+                  Navigator.pushNamed(context, AppRoutes.home);
                 },
               ),
               const SizedBox(height: 32),

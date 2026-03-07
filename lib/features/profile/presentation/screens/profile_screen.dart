@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/routing/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/custom_app_bar.dart';
 import '../../../../core/widgets/custom_bottom_nav_bar.dart';
@@ -21,7 +22,11 @@ class ProfileScreen extends StatelessWidget {
 
       bottomNavigationBar: CustomBottomNavBar(
         currentIndex: 2,
-        onTap: (index) {},
+        onTap: (index) {
+          if (index == 0) {
+            Navigator.pushNamed(context, AppRoutes.home);
+          }
+        },
       ),
 
       body: Column(

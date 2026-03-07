@@ -31,7 +31,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       centerTitle: centerTitle,
       leading: showBackButton
           ? IconButton(
-              icon: SvgPicture.asset(AppIcons.backIcon, width: 24),
+              icon: SvgPicture.asset(
+                AppIcons.backIcon,
+                width: 16,
+                colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
+              ),
               onPressed: onBack ?? () => Navigator.pop(context),
             )
           : null,

@@ -54,7 +54,9 @@ class AccountCard extends StatelessWidget {
               text: "Log Out",
               color: AppColors.red,
               showArrow: false,
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(context, "/sign-in");
+              },
             ),
           ],
         ),
