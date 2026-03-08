@@ -1,6 +1,5 @@
-// ignore_for_file: prefer_single_quotes
-
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../theme/app_colors.dart';
 
@@ -38,4 +37,9 @@ class AppIcons {
   );
   static const String aeroplane = "${_basePath}aeroplane.svg";
   static const String economy = "${_basePath}economy.svg";
+  static Icon close = Icon(
+    Icons.close,
+    size: 24.sp,
+    color: AppColors.textSecondary,
+  );
 }

@@ -11,6 +11,7 @@ class InputTextField extends StatelessWidget {
   final String? prefixIcon;
   final bool isPassword;
   final Widget? suffix;
+  final bool showLabel;
 
   const InputTextField({
     super.key,
@@ -19,6 +20,7 @@ class InputTextField extends StatelessWidget {
     this.prefixIcon,
     this.isPassword = false,
     this.suffix,
+    this.showLabel = true,
   });
 
   @override
@@ -26,8 +28,10 @@ class InputTextField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: AppTextStyles.inputLabel),
-        SizedBox(height: 8.h),
+        if (showLabel) ...[
+          Text(label, style: AppTextStyles.inputLabel),
+          SizedBox(height: 8.h),
+        ],
         Container(
           height: 52.h,
           decoration: BoxDecoration(

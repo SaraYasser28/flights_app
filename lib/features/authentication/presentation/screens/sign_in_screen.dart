@@ -66,8 +66,28 @@ class SignInScreen extends StatelessWidget {
 
               SizedBox(height: 20.h),
 
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("Password", style: AppTextStyles.inputLabel),
+                  GestureDetector(
+                    onTap: () {},
+                    child: Text(
+                      "Forgot Password?",
+                      style: AppTextStyles.primaryLink.copyWith(
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
+              SizedBox(height: 8.h),
+
               InputTextField(
-                label: "Password",
+                showLabel: false,
+                label: "",
                 hint: "Enter your password",
                 prefixIcon: AppIcons.lock,
                 isPassword: true,

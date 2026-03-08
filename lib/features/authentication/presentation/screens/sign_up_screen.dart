@@ -11,6 +11,7 @@ import '../../../../core/widgets/primary_button.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../widgets/or_divider.dart';
 import '../widgets/social_button.dart';
+import '../widgets/terms_dialog.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
@@ -66,17 +67,18 @@ class SignUpScreen extends StatelessWidget {
               ),
               SizedBox(height: 31.h),
               Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Checkbox(
                     value: false,
                     onChanged: (value) {},
+                    activeColor: AppColors.primary,
+                    side: BorderSide(color: AppColors.checkBoxBorder, width: 1),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      side: BorderSide(color: AppColors.red, width: 100.w),
+                      borderRadius: BorderRadius.circular(8.r),
                     ),
                   ),
-                  SizedBox(width: 8.w),
+                  SizedBox(width: 6.w),
                   Expanded(
                     child: RichText(
                       text: TextSpan(
@@ -88,13 +90,43 @@ class SignUpScreen extends StatelessWidget {
                           TextSpan(
                             text: "Terms of Service",
                             style: AppTextStyles.primaryLink,
-                            recognizer: TapGestureRecognizer()..onTap = () {},
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => TermsDialog(
+                                    title: "Terms of Service",
+                                    content:
+                                        "1. Acceptance of Terms: By creating an account, you agree to follow these rules and all applicable laws."
+                                        "\n\n2. Account Responsibility: You are responsible for your account, password, and all activity under it."
+                                        "\n\n3. Prohibited Conduct: You may not use the app for illegal purposes, harassment, spamming, or uploading harmful content."
+                                        "\n\n4. Content Ownership: Any content you post remains yours, but you grant us permission to display it in the app."
+                                        "\n\n5. Termination: We may suspend or terminate your account if you violate these terms."
+                                        "\n\n6. Changes to Terms: We may update these terms occasionally. Continued use means you accept the changes.",
+                                  ),
+                                );
+                              },
                           ),
                           const TextSpan(text: " and "),
                           TextSpan(
                             text: "Privacy Policy",
                             style: AppTextStyles.primaryLink,
-                            recognizer: TapGestureRecognizer()..onTap = () {},
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => TermsDialog(
+                                    title: "Privacy Policy",
+                                    content:
+                                        "1. Information Collection: We collect your name, email, and other information you provide during sign-up."
+                                        "\n\n2. Use of Information: Your data is used to provide services, personalize content, and improve your experience."
+                                        "\n\n3. Data Sharing: We do not sell your personal information. We may share data with trusted partners to provide services."
+                                        "\n\n4. Data Security: We take reasonable steps to protect your information, but no system is 100% secure."
+                                        "\n\n5. User Rights: You can request access, correction, or deletion of your data at any time."
+                                        "\n\n6. Cookies and Tracking: We use cookies to improve functionality and performance..",
+                                  ),
+                                );
+                              },
                           ),
                           const TextSpan(text: "."),
                         ],
@@ -104,7 +136,7 @@ class SignUpScreen extends StatelessWidget {
                 ],
               ),
 
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
 
               PrimaryButton(
                 text: "Sign Up",
