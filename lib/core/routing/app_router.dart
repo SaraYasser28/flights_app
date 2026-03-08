@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../features/authentication/presentation/screens/sign_in_screen.dart';
 import '../../features/authentication/presentation/screens/sign_up_screen.dart';
+import '../../features/booking/presentation/screens/bookings_screen.dart';
 import '../../features/flight details/presentation/screens/flight_details_screen.dart';
 import '../../features/home/presentation/screens/home_screen.dart';
 import '../../features/profile/presentation/screens/profile_screen.dart';
@@ -19,6 +20,9 @@ class AppRouter {
 
       case AppRoutes.home:
         return MaterialPageRoute(builder: (_) => const HomeScreen());
+
+      case AppRoutes.bookings:
+        return MaterialPageRoute(builder: (_) => const BookingsScreen());
 
       case AppRoutes.profile:
         return MaterialPageRoute(builder: (_) => const ProfileScreen());

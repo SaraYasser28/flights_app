@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/constants/app_images.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -12,19 +13,19 @@ class ProfileHeader extends StatelessWidget {
     return Container(
       width: double.infinity,
       color: AppColors.primary,
-      padding: const EdgeInsets.only(bottom: 32),
+      padding: EdgeInsets.only(bottom: 32.h),
       child: Column(
         children: [
-          const SizedBox(height: 32),
+          SizedBox(height: 32.h),
 
           /// Profile Image
           Container(
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              border: Border.all(color: AppColors.white, width: 3),
+              border: Border.all(color: AppColors.white, width: 3.w),
             ),
             child: CircleAvatar(
-              radius: 70,
+              radius: 70.r,
               backgroundImage: AssetImage(AppImages.profilePhoto),
             ),
           ),
@@ -33,40 +34,42 @@ class ProfileHeader extends StatelessWidget {
 
           /// Gold Member
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+            padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 6.h),
             decoration: BoxDecoration(
               color: AppColors.orange,
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: AppColors.white, width: 2),
+              borderRadius: BorderRadius.circular(20.r),
+              border: Border.all(color: AppColors.white, width: 2.w),
             ),
-            child: const Text(
+            child: Text(
               "GOLD MEMBER",
-              style: TextStyle(
+              style: AppTextStyles.body.copyWith(
                 color: Colors.white,
-                fontSize: 12,
+                fontSize: 12.sp,
                 fontWeight: FontWeight.w600,
               ),
             ),
           ),
 
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
 
           /// Name
           Text(
             "John",
-            style: AppTextStyles.titleWith(
+            style: AppTextStyles.title.copyWith(
               color: Colors.white,
-              size: 24,
-              weight: FontWeight.w700,
+              fontSize: 24.sp,
+              fontWeight: FontWeight.w700,
             ),
           ),
 
-          const SizedBox(height: 4),
+          SizedBox(height: 4.h),
 
           /// Email
           Text(
             "John@traveler.com",
-            style: AppTextStyles.subtitle.copyWith(color: Colors.white70),
+            style: AppTextStyles.subtitle.copyWith(
+              color: AppColors.white.withValues(alpha: 0.8),
+            ),
           ),
         ],
       ),

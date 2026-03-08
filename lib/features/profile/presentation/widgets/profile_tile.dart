@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_style.dart';
@@ -24,21 +25,21 @@ class ProfileTile extends StatelessWidget {
     return Row(
       children: [
         Container(
-          padding: const EdgeInsets.all(10),
+          padding: EdgeInsets.all(10.w),
           decoration: BoxDecoration(
             color: color.withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(12.r),
           ),
-          child: SvgPicture.asset(icon, width: 20),
+          child: SvgPicture.asset(icon, width: 20.w),
         ),
 
-        const SizedBox(width: 16),
+        SizedBox(width: 16.w),
 
         Expanded(
           child: Text(
             text,
             style: AppTextStyles.body.copyWith(
-              fontSize: 16,
+              fontSize: 16.sp,
               fontWeight: FontWeight.w500,
               color: color,
             ),

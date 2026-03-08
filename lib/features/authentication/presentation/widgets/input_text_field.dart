@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../theme/app_colors.dart';
-import '../theme/app_text_style.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_text_style.dart';
 
 class InputTextField extends StatelessWidget {
   final String label;
@@ -26,20 +27,20 @@ class InputTextField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(label, style: AppTextStyles.inputLabel),
-        const SizedBox(height: 8),
+        SizedBox(height: 8.h),
         Container(
-          height: 52,
+          height: 52.h,
           decoration: BoxDecoration(
             color: AppColors.inputBackground,
             border: Border.all(color: AppColors.inputBorder),
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: BorderRadius.circular(24.r),
           ),
-          padding: const EdgeInsets.symmetric(horizontal: 33),
+          padding: EdgeInsets.symmetric(horizontal: 33.w),
           child: Row(
             children: [
               if (prefixIcon != null) ...[
-                SvgPicture.asset(prefixIcon!, width: 20),
-                const SizedBox(width: 16),
+                SvgPicture.asset(prefixIcon!, width: 14.w),
+                SizedBox(width: 16.w),
               ],
               Expanded(
                 child: TextField(
@@ -48,7 +49,7 @@ class InputTextField extends StatelessWidget {
                     hintText: hint,
                     hintStyle: AppTextStyles.inputHint,
                     border: InputBorder.none,
-                    contentPadding: EdgeInsets.all(17),
+                    contentPadding: EdgeInsets.all(17.h),
                   ),
                 ),
               ),

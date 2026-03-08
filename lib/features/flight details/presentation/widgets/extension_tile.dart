@@ -1,5 +1,6 @@
 import 'package:flights_app/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ExtensionTile extends StatelessWidget {
@@ -17,11 +18,11 @@ class ExtensionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(14),
+      margin: EdgeInsets.only(bottom: 12.h),
+      padding: EdgeInsets.all(14.w),
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
         border: Border.all(color: AppColors.inputBorder),
       ),
       child: Row(
@@ -33,7 +34,7 @@ class ExtensionTile extends StatelessWidget {
               BlendMode.srcIn,
             ),
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: 12.w),
           Expanded(child: Text(text)),
         ],
       ),

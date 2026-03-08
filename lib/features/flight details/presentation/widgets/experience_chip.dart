@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../core/theme/app_colors.dart';
 
@@ -11,10 +12,10 @@ class ExperienceChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+      padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.h),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
         border: Border.all(color: Colors.grey.shade200),
       ),
       child: Row(
@@ -26,7 +27,7 @@ class ExperienceChip extends StatelessWidget {
               BlendMode.srcIn,
             ),
           ),
-          const SizedBox(width: 6),
+          SizedBox(width: 6.w),
           Text(label),
         ],
       ),

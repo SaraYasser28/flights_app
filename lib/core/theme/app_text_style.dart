@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'app_colors.dart';
 
 class AppTextStyles {
@@ -9,25 +10,21 @@ class AppTextStyles {
   // =========================
   // TITLE
   // =========================
-  static TextStyle get title => const TextStyle(
+  static TextStyle get title => TextStyle(
     fontFamily: fontFamily,
     fontWeight: FontWeight.w700,
-    fontSize: 30,
+    fontSize: 30.sp,
     height: 37.5 / 30,
     color: AppColors.textPrimary,
   );
 
-  static TextStyle titleWith({Color? color, double? size, FontWeight? weight}) {
-    return title.copyWith(color: color, fontSize: size, fontWeight: weight);
-  }
-
   // =========================
   // SUBTITLE
   // =========================
-  static TextStyle get subtitle => const TextStyle(
+  static TextStyle get subtitle => TextStyle(
     fontFamily: fontFamily,
     fontWeight: FontWeight.w400,
-    fontSize: 16,
+    fontSize: 16.sp,
     height: 24 / 16,
     color: AppColors.textSecondary,
   );
@@ -35,10 +32,10 @@ class AppTextStyles {
   // =========================
   // INPUT LABEL
   // =========================
-  static TextStyle get inputLabel => const TextStyle(
+  static TextStyle get inputLabel => TextStyle(
     fontFamily: fontFamily,
     fontWeight: FontWeight.w500,
-    fontSize: 14,
+    fontSize: 14.sp,
     height: 20 / 14,
     color: AppColors.textPrimary,
   );
@@ -46,10 +43,10 @@ class AppTextStyles {
   // =========================
   // INPUT HINT
   // =========================
-  static TextStyle get inputHint => const TextStyle(
+  static TextStyle get inputHint => TextStyle(
     fontFamily: fontFamily,
     fontWeight: FontWeight.w400,
-    fontSize: 16,
+    fontSize: 16.sp,
     height: 1,
     color: AppColors.textMuted,
   );
@@ -57,10 +54,10 @@ class AppTextStyles {
   // =========================
   // DIVIDER TEXT
   // =========================
-  static TextStyle get dividerText => const TextStyle(
+  static TextStyle get dividerText => TextStyle(
     fontFamily: fontFamily,
     fontWeight: FontWeight.w400,
-    fontSize: 14,
+    fontSize: 14.sp,
     height: 20 / 14,
     color: AppColors.textSecondary,
   );
@@ -68,10 +65,10 @@ class AppTextStyles {
   // =========================
   // PRIMARY LINK
   // =========================
-  static TextStyle get primaryLink => const TextStyle(
+  static TextStyle get primaryLink => TextStyle(
     fontFamily: fontFamily,
     fontWeight: FontWeight.w700,
-    fontSize: 14,
+    fontSize: 14.sp,
     height: 20 / 14,
     color: AppColors.primary,
   );
@@ -79,10 +76,10 @@ class AppTextStyles {
   // =========================
   // BODY
   // =========================
-  static TextStyle get body => const TextStyle(
+  static TextStyle get body => TextStyle(
     fontFamily: fontFamily,
     fontWeight: FontWeight.w400,
-    fontSize: 14,
+    fontSize: 14.sp,
     height: 20 / 14,
     color: AppColors.textPrimary,
   );

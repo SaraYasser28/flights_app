@@ -1,6 +1,7 @@
 import 'package:flights_app/core/constants/app_icons.dart';
 import 'package:flights_app/core/theme/app_text_style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../theme/app_colors.dart';
@@ -33,7 +34,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           ? IconButton(
               icon: SvgPicture.asset(
                 AppIcons.backIcon,
-                width: 16,
+                width: 16.w,
                 colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
               ),
               onPressed: onBack ?? () => Navigator.pop(context),
@@ -42,10 +43,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: title != null
           ? Text(
               title!,
-              style: AppTextStyles.titleWith(
+              style: AppTextStyles.title.copyWith(
                 color: iconColor,
-                size: 18,
-                weight: FontWeight.w600,
+                fontSize: 18.sp,
+                fontWeight: FontWeight.w600,
               ),
             )
           : null,

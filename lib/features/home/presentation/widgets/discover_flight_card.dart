@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../core/constants/app_icons.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -38,10 +39,10 @@ class DiscoverFlightCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(18),
+      padding: EdgeInsets.all(18.w),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
         boxShadow: [
           BoxShadow(
             color: AppColors.black.withValues(alpha: 0.05),
@@ -60,15 +61,15 @@ class DiscoverFlightCard extends StatelessWidget {
               Row(
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(8),
+                    padding: EdgeInsets.all(8.w),
                     decoration: BoxDecoration(
                       color: AppColors.redHue,
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(16.r),
                     ),
-                    child: SvgPicture.asset(AppIcons.british, width: 15),
+                    child: SvgPicture.asset(AppIcons.british, width: 15.w),
                   ),
 
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8.w),
 
                   Text(
                     airline,
@@ -81,15 +82,12 @@ class DiscoverFlightCard extends StatelessWidget {
 
               /// CLASS BADGE
               Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 4,
-                ),
+                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
                 decoration: BoxDecoration(
                   color: flightClass == "BUSINESS CLASS"
                       ? AppColors.orangeHue
                       : AppColors.blueHue,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(20.r),
                 ),
                 child: Text(
                   flightClass,
@@ -97,7 +95,7 @@ class DiscoverFlightCard extends StatelessWidget {
                     color: flightClass == "BUSINESS CLASS"
                         ? AppColors.orange
                         : AppColors.primary,
-                    fontSize: 11,
+                    fontSize: 11.sp,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -105,7 +103,7 @@ class DiscoverFlightCard extends StatelessWidget {
             ],
           ),
 
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
 
           /// ROUTE
           Row(
@@ -117,17 +115,17 @@ class DiscoverFlightCard extends StatelessWidget {
                 children: [
                   Text(
                     flightFrom,
-                    style: AppTextStyles.titleWith(
-                      size: 24,
-                      weight: FontWeight.bold,
+                    style: AppTextStyles.title.copyWith(
+                      fontSize: 24.sp,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  SizedBox(height: 4.h),
                   Text(
                     fromCity,
-                    style: AppTextStyles.dividerText.copyWith(fontSize: 12),
+                    style: AppTextStyles.dividerText.copyWith(fontSize: 12.sp),
                   ),
-                  const SizedBox(height: 6),
+                  SizedBox(height: 6.h),
                   Text(
                     departureTime,
                     style: AppTextStyles.body.copyWith(
@@ -137,7 +135,7 @@ class DiscoverFlightCard extends StatelessWidget {
                 ],
               ),
 
-              const SizedBox(width: 12),
+              SizedBox(width: 12.w),
 
               /// TIMELINE
               Expanded(
@@ -146,18 +144,18 @@ class DiscoverFlightCard extends StatelessWidget {
                     Text(
                       duration,
                       style: AppTextStyles.body.copyWith(
-                        fontSize: 12,
+                        fontSize: 12.sp,
                         color: AppColors.grey,
                       ),
                     ),
 
-                    const SizedBox(height: 4),
+                    SizedBox(height: 4.h),
 
                     Row(
                       children: [
                         Container(
-                          width: 8,
-                          height: 8,
+                          width: 8.w,
+                          height: 8.h,
                           decoration: BoxDecoration(
                             border: Border.all(
                               color: AppColors.primary,
@@ -166,18 +164,18 @@ class DiscoverFlightCard extends StatelessWidget {
                             shape: BoxShape.circle,
                           ),
                         ),
-                        const SizedBox(width: 8),
+                        SizedBox(width: 8.w),
                         Expanded(
                           child: Container(
-                            height: 1,
+                            height: 1.h,
                             color: AppColors.grey.withValues(alpha: 0.3),
                           ),
                         ),
-                        const SizedBox(width: 8),
+                        SizedBox(width: 8.w),
 
                         Container(
-                          width: 8,
-                          height: 8,
+                          width: 8.w,
+                          height: 8.h,
                           decoration: const BoxDecoration(
                             color: AppColors.primary,
                             shape: BoxShape.circle,
@@ -186,17 +184,19 @@ class DiscoverFlightCard extends StatelessWidget {
                       ],
                     ),
 
-                    const SizedBox(height: 4),
+                    SizedBox(height: 4.h),
 
                     Text(
                       "Non-stop",
-                      style: AppTextStyles.primaryLink.copyWith(fontSize: 10),
+                      style: AppTextStyles.primaryLink.copyWith(
+                        fontSize: 10.sp,
+                      ),
                     ),
                   ],
                 ),
               ),
 
-              const SizedBox(width: 12),
+              SizedBox(width: 12.w),
 
               /// TO
               Column(
@@ -204,17 +204,17 @@ class DiscoverFlightCard extends StatelessWidget {
                 children: [
                   Text(
                     flightTo,
-                    style: AppTextStyles.titleWith(
-                      size: 24,
-                      weight: FontWeight.bold,
+                    style: AppTextStyles.title.copyWith(
+                      fontSize: 24.sp,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  SizedBox(height: 4.h),
                   Text(
                     toCity,
-                    style: AppTextStyles.dividerText.copyWith(fontSize: 10),
+                    style: AppTextStyles.dividerText.copyWith(fontSize: 10.sp),
                   ),
-                  const SizedBox(height: 6),
+                  SizedBox(height: 6.h),
                   Text(
                     arrivalTime,
                     style: AppTextStyles.body.copyWith(
@@ -234,22 +234,22 @@ class DiscoverFlightCard extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  SvgPicture.asset(AppIcons.calendar, width: 16),
+                  SvgPicture.asset(AppIcons.calendar, width: 16.w),
 
-                  const SizedBox(width: 4),
+                  SizedBox(width: 4.w),
 
                   Text(
                     date,
-                    style: AppTextStyles.dividerText.copyWith(fontSize: 12),
+                    style: AppTextStyles.dividerText.copyWith(fontSize: 12.sp),
                   ),
                 ],
               ),
 
               Text(
                 price,
-                style: AppTextStyles.titleWith(
-                  size: 20,
-                  weight: FontWeight.bold,
+                style: AppTextStyles.title.copyWith(
+                  fontSize: 20.sp,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ],

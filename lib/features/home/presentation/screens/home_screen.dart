@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/constants/app_images.dart';
 import '../../../../core/routing/app_routes.dart';
 import '../../../../core/widgets/custom_bottom_nav_bar.dart';
@@ -75,7 +76,9 @@ class HomeScreen extends StatelessWidget {
       bottomNavigationBar: CustomBottomNavBar(
         currentIndex: 0,
         onTap: (index) {
-          if (index == 2) {
+          if (index == 1) {
+            Navigator.pushNamed(context, AppRoutes.bookings);
+          } else if (index == 2) {
             Navigator.pushNamed(context, AppRoutes.profile);
           }
         },
@@ -84,35 +87,37 @@ class HomeScreen extends StatelessWidget {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.only(bottom: 24),
+            padding: EdgeInsets.only(bottom: 24.h),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
                   color: AppColors.primary,
-                  padding: const EdgeInsets.fromLTRB(24, 16, 24, 32),
+                  padding: EdgeInsets.fromLTRB(24.w, 16.h, 24.w, 32.h),
                   child: Column(
                     children: [
                       /// Profile Row
-                      const Row(
+                      Row(
                         children: [
-                          CircleAvatar(radius: 24),
-                          SizedBox(width: 12),
+                          CircleAvatar(radius: 24.r),
+                          SizedBox(width: 12.w),
 
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 "Hello, John",
-                                style: TextStyle(
+                                style: AppTextStyles.title.copyWith(
                                   color: Colors.white,
-                                  fontSize: 18,
+                                  fontSize: 18.sp,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                               Text(
                                 "Where are we flying today?",
-                                style: TextStyle(color: Colors.white70),
+                                style: AppTextStyles.body.copyWith(
+                                  color: AppColors.white.withValues(alpha: 0.7),
+                                ),
                               ),
                             ],
                           ),
@@ -121,39 +126,39 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: 20.h),
                 const CustomSearchBar(),
-                const SizedBox(height: 24),
+                SizedBox(height: 24.h),
 
                 /// Favorite Flights Title
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  padding: EdgeInsets.symmetric(horizontal: 24.w),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         "Favorite Flights",
-                        style: AppTextStyles.titleWith(size: 18),
+                        style: AppTextStyles.title.copyWith(fontSize: 18.sp),
                       ),
                       Text("See all", style: AppTextStyles.primaryLink),
                     ],
                   ),
                 ),
 
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
 
                 /// Favorite Flights Cards
                 SizedBox(
                   height: 220,
                   child: ListView.builder(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    padding: EdgeInsets.symmetric(horizontal: 24),
                     scrollDirection: Axis.horizontal,
                     itemCount: favoriteFlights.length,
                     itemBuilder: (context, index) {
                       final flight = favoriteFlights[index];
 
                       return Padding(
-                        padding: const EdgeInsets.only(right: 16),
+                        padding: EdgeInsets.only(right: 16),
                         child: FavoriteFlightCard(
                           image: flight["image"]!,
                           route: flight["route"]!,
@@ -165,22 +170,22 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
 
-                const SizedBox(height: 24),
+                SizedBox(height: 24.h),
 
                 /// Discover Flights Title
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  padding: EdgeInsets.symmetric(horizontal: 24.w),
                   child: Text(
                     "Discover Flights",
-                    style: AppTextStyles.titleWith(size: 18),
+                    style: AppTextStyles.title.copyWith(fontSize: 18.sp),
                   ),
                 ),
 
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
 
                 /// Discover Flights Cards
                 ListView.builder(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  padding: EdgeInsets.symmetric(horizontal: 24.w),
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: discoverFlights.length,
@@ -188,7 +193,7 @@ class HomeScreen extends StatelessWidget {
                     final flight = discoverFlights[index];
 
                     return Padding(
-                      padding: const EdgeInsets.only(bottom: 16),
+                      padding: EdgeInsets.only(bottom: 16.h),
                       child: GestureDetector(
                         onTap: () {
                           Navigator.pushNamed(context, AppRoutes.flightDetails);
@@ -211,7 +216,7 @@ class HomeScreen extends StatelessWidget {
                   },
                 ),
 
-                const SizedBox(height: 24),
+                SizedBox(height: 24.h),
               ],
             ),
           ),

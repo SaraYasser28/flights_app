@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../../core/constants/app_icons.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -10,7 +11,7 @@ class FlightTimeline extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -19,14 +20,14 @@ class FlightTimeline extends StatelessWidget {
             children: [
               /// DEPARTURE ICON
               Container(
-                padding: const EdgeInsets.all(10),
+                padding: EdgeInsets.all(10.w),
                 decoration: BoxDecoration(
                   color: AppColors.blueHue,
                   shape: BoxShape.circle,
                 ),
                 child: SvgPicture.asset(
                   AppIcons.france,
-                  width: 18,
+                  width: 18.w,
                   colorFilter: const ColorFilter.mode(
                     AppColors.primary,
                     BlendMode.srcIn,
@@ -34,7 +35,7 @@ class FlightTimeline extends StatelessWidget {
                 ),
               ),
 
-              Container(height: 60, width: 2, color: AppColors.inputBorder),
+              Container(height: 60.h, width: 2.w, color: AppColors.inputBorder),
 
               /// ARRIVAL ICON
               Container(
@@ -45,7 +46,7 @@ class FlightTimeline extends StatelessWidget {
                 ),
                 child: SvgPicture.asset(
                   AppIcons.landing,
-                  width: 18,
+                  width: 18.w,
                   colorFilter: const ColorFilter.mode(
                     AppColors.white,
                     BlendMode.srcIn,
@@ -55,7 +56,7 @@ class FlightTimeline extends StatelessWidget {
             ],
           ),
 
-          const SizedBox(width: 16),
+          SizedBox(width: 16.w),
 
           /// Flight Details
           Expanded(
@@ -65,20 +66,20 @@ class FlightTimeline extends StatelessWidget {
                 /// Departure
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
+                  children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           "10:40 AM",
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: 18.sp,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(
                           "Charles de Gaulle Airport, Paris",
-                          style: TextStyle(color: Colors.grey),
+                          style: TextStyle(color: AppColors.grey),
                         ),
                       ],
                     ),
@@ -86,34 +87,34 @@ class FlightTimeline extends StatelessWidget {
                   ],
                 ),
 
-                const SizedBox(height: 24),
+                SizedBox(height: 24.h),
 
                 const Center(
                   child: Text(
                     "1H 30M FLIGHT",
-                    style: TextStyle(color: Colors.grey),
+                    style: TextStyle(color: AppColors.grey),
                   ),
                 ),
 
-                const SizedBox(height: 24),
+                SizedBox(height: 24.h),
 
                 /// Arrival
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
+                  children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           "10:40 AM",
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: 18.sp,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(
                           "Heathrow Airport, London",
-                          style: TextStyle(color: Colors.grey),
+                          style: TextStyle(color: AppColors.grey),
                         ),
                       ],
                     ),

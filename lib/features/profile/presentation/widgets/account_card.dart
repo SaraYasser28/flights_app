@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/constants/app_icons.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -11,17 +12,17 @@ class AccountCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
+      padding: EdgeInsets.symmetric(horizontal: 24.w),
       child: Container(
         decoration: BoxDecoration(
           color: AppColors.white,
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.circular(24.r),
         ),
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.all(20.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
             Text(
               "ACCOUNT",
               style: AppTextStyles.body.copyWith(
@@ -31,7 +32,7 @@ class AccountCard extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(height: 25),
+            SizedBox(height: 25.h),
 
             /// Favorite Flights
             ProfileTile(
@@ -42,8 +43,8 @@ class AccountCard extends StatelessWidget {
               onTap: () {},
             ),
 
-            const Divider(
-              height: 24,
+            Divider(
+              height: 24.h,
               color: AppColors.checkBoxBorder,
               thickness: 0.4,
             ),

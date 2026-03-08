@@ -1,13 +1,13 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/constants/app_icons.dart';
 import '../../../../core/routing/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_style.dart';
-import '../../../../core/widgets/input_text_field.dart';
+import '../widgets/input_text_field.dart';
 import '../../../../core/widgets/primary_button.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 import '../widgets/or_divider.dart';
 import '../widgets/social_button.dart';
 
@@ -20,61 +20,75 @@ class SignInScreen extends StatelessWidget {
       backgroundColor: AppColors.white,
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24),
+          padding: EdgeInsets.all(24.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(6),
+                    padding: EdgeInsets.all(6.w),
                     decoration: BoxDecoration(
                       color: AppColors.primary.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(16.r),
                     ),
-                    child: SvgPicture.asset(AppIcons.france, width: 28),
+                    child: SvgPicture.asset(AppIcons.france, width: 28.w),
                   ),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12.w),
                   Text(
                     "Skiee",
                     style: AppTextStyles.title.copyWith(
-                      fontSize: 20,
+                      fontSize: 20.sp,
                       color: AppColors.primary,
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 52),
+
+              SizedBox(height: 52.h),
+
               Text("Welcome Back", style: AppTextStyles.title),
-              const SizedBox(height: 8),
+
+              SizedBox(height: 8.h),
+
               Text(
                 "Sign in to continue booking your next adventure",
                 style: AppTextStyles.subtitle,
               ),
-              const SizedBox(height: 32),
+
+              SizedBox(height: 32.h),
+
               InputTextField(
                 label: "Email",
                 hint: "name@example.com",
                 prefixIcon: AppIcons.email,
               ),
-              const SizedBox(height: 20),
+
+              SizedBox(height: 20.h),
+
               InputTextField(
                 label: "Password",
                 hint: "Enter your password",
                 prefixIcon: AppIcons.lock,
                 isPassword: true,
-                suffix: SvgPicture.asset(AppIcons.obscure, width: 20),
+                suffix: SvgPicture.asset(AppIcons.obscure, width: 18.w),
               ),
-              const SizedBox(height: 34),
+
+              SizedBox(height: 34.h),
+
               PrimaryButton(
                 text: "Sign In",
                 onTap: () {
                   Navigator.pushNamed(context, AppRoutes.home);
                 },
               ),
-              const SizedBox(height: 28),
+
+              SizedBox(height: 28.h),
+
               const OrDivider(),
-              const SizedBox(height: 32),
+
+              SizedBox(height: 32.h),
+
               Row(
                 children: const [
                   SocialButton(icon: AppIcons.google, text: "Google"),
@@ -82,7 +96,9 @@ class SignInScreen extends StatelessWidget {
                   SocialButton(icon: AppIcons.facebook, text: "Facebook"),
                 ],
               ),
-              const SizedBox(height: 39.5),
+
+              SizedBox(height: 40.h),
+
               Center(
                 child: RichText(
                   text: TextSpan(

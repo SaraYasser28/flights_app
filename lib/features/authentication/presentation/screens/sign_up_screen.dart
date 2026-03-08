@@ -1,11 +1,12 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/constants/app_icons.dart';
 import '../../../../core/routing/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_style.dart';
 import '../../../../core/widgets/custom_app_bar.dart';
-import '../../../../core/widgets/input_text_field.dart';
+import '../widgets/input_text_field.dart';
 import '../../../../core/widgets/primary_button.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../widgets/or_divider.dart';
@@ -24,46 +25,46 @@ class SignUpScreen extends StatelessWidget {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24),
+          padding: EdgeInsets.all(24.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 8),
+              SizedBox(height: 8.h),
               Text("Create Account", style: AppTextStyles.title),
-              const SizedBox(height: 8),
+              SizedBox(height: 8.h),
               Text(
                 "Join us and start exploring the world",
                 style: AppTextStyles.subtitle,
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: 24.h),
               InputTextField(
                 label: "Full Name",
                 hint: "John Doe",
                 prefixIcon: AppIcons.profile,
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               InputTextField(
                 label: "Email",
                 hint: "john@example.com",
                 prefixIcon: AppIcons.email,
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               InputTextField(
                 label: "Password",
                 hint: "••••••••",
                 prefixIcon: AppIcons.lock,
                 isPassword: true,
-                suffix: SvgPicture.asset(AppIcons.obscure, width: 20),
+                suffix: SvgPicture.asset(AppIcons.obscure, width: 18.w),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               InputTextField(
                 label: "Confirm Password",
                 hint: "••••••••",
                 prefixIcon: AppIcons.confirmLock,
                 isPassword: true,
-                suffix: SvgPicture.asset(AppIcons.obscure, width: 20),
+                suffix: SvgPicture.asset(AppIcons.obscure, width: 18.w),
               ),
-              const SizedBox(height: 31),
+              SizedBox(height: 31.h),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -72,10 +73,10 @@ class SignUpScreen extends StatelessWidget {
                     onChanged: (value) {},
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
-                      side: BorderSide(color: AppColors.red, width: 100),
+                      side: BorderSide(color: AppColors.red, width: 100.w),
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8.w),
                   Expanded(
                     child: RichText(
                       text: TextSpan(
@@ -111,14 +112,14 @@ class SignUpScreen extends StatelessWidget {
                   Navigator.pushNamed(context, AppRoutes.home);
                 },
               ),
-              const SizedBox(height: 32),
+              SizedBox(height: 32.h),
               const OrDivider(),
-              const SizedBox(height: 32),
+              SizedBox(height: 32.h),
               Row(
-                children: const [
-                  SocialButton(icon: AppIcons.google, text: "Google"),
-                  SizedBox(width: 16),
-                  SocialButton(icon: AppIcons.facebook, text: "Facebook"),
+                children: [
+                  const SocialButton(icon: AppIcons.google, text: "Google"),
+                  SizedBox(width: 16.w),
+                  const SocialButton(icon: AppIcons.facebook, text: "Facebook"),
                 ],
               ),
 

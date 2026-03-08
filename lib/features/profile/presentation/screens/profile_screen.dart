@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/routing/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/custom_app_bar.dart';
@@ -25,12 +26,18 @@ class ProfileScreen extends StatelessWidget {
         onTap: (index) {
           if (index == 0) {
             Navigator.pushNamed(context, AppRoutes.home);
+          } else if (index == 1) {
+            Navigator.pushNamed(context, AppRoutes.bookings);
           }
         },
       ),
 
       body: Column(
-        children: [ProfileHeader(), const SizedBox(height: 24), AccountCard()],
+        children: [
+          ProfileHeader(),
+          SizedBox(height: 24.h),
+          AccountCard(),
+        ],
       ),
     );
   }

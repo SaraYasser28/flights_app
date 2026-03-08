@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../../core/constants/app_icons.dart';
 import '../../../../core/constants/app_images.dart';
@@ -28,19 +29,19 @@ class FlightDetailsScreen extends StatelessWidget {
           /// AIRLINE INFO
           Container(
             color: AppColors.primary,
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+            padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 20.h),
             child: Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(12),
+                  padding: EdgeInsets.all(12.h),
                   decoration: BoxDecoration(
                     color: AppColors.white,
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(16.r),
                   ),
-                  child: Image.asset(AppImages.britishAirways, width: 36),
+                  child: Image.asset(AppImages.britishAirways, width: 36.w),
                 ),
 
-                const SizedBox(width: 12),
+                SizedBox(width: 12.w),
 
                 Expanded(
                   child: Column(
@@ -48,10 +49,10 @@ class FlightDetailsScreen extends StatelessWidget {
                     children: [
                       Text(
                         "British Airways",
-                        style: AppTextStyles.titleWith(
+                        style: AppTextStyles.title.copyWith(
                           color: AppColors.white,
-                          size: 18,
-                          weight: FontWeight.w700,
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                       Text(
@@ -73,7 +74,7 @@ class FlightDetailsScreen extends StatelessWidget {
                   ),
                   child: SvgPicture.asset(
                     AppIcons.favourite,
-                    width: 11,
+                    width: 11.w,
                     colorFilter: const ColorFilter.mode(
                       AppColors.red,
                       BlendMode.srcIn,
@@ -91,37 +92,37 @@ class FlightDetailsScreen extends StatelessWidget {
                 children: [
                   const FlightTimeline(),
 
-                  const SizedBox(height: 16),
+                  SizedBox(height: 16.h),
 
                   /// FLIGHT EXPERIENCE
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.w),
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
                         "Flight Experience",
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 16.sp,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
                   ),
 
-                  const SizedBox(height: 12),
+                  SizedBox(height: 12.h),
 
                   SizedBox(
-                    height: 48,
+                    height: 48.h,
                     child: ListView(
                       scrollDirection: Axis.horizontal,
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      children: const [
-                        ExperienceChip(
+                      padding: EdgeInsets.symmetric(horizontal: 20.w),
+                      children: [
+                        const ExperienceChip(
                           icon: AppIcons.aeroplane,
                           label: "Airbus A319",
                         ),
-                        SizedBox(width: 10),
-                        ExperienceChip(
+                        SizedBox(width: 10.w),
+                        const ExperienceChip(
                           icon: AppIcons.economy,
                           label: "Economy Class",
                         ),
@@ -129,27 +130,27 @@ class FlightDetailsScreen extends StatelessWidget {
                     ),
                   ),
 
-                  const SizedBox(height: 24),
+                  SizedBox(height: 24.h),
 
                   /// EXTENSIONS
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.w),
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
                         "Extensions",
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 16.sp,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
                   ),
 
-                  const SizedBox(height: 12),
+                  SizedBox(height: 12.h),
 
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: EdgeInsets.symmetric(horizontal: 20.w),
                     child: Column(
                       children: [
                         const ExtensionTile(
@@ -177,7 +178,7 @@ class FlightDetailsScreen extends StatelessWidget {
                     ),
                   ),
 
-                  const SizedBox(height: 120),
+                  SizedBox(height: 120.h),
                 ],
               ),
             ),
@@ -185,7 +186,7 @@ class FlightDetailsScreen extends StatelessWidget {
 
           /// PRICE + BUTTON
           Container(
-            padding: const EdgeInsets.all(20),
+            padding: EdgeInsets.all(20.w),
             decoration: const BoxDecoration(color: Colors.white),
             child: Column(
               children: [
@@ -202,7 +203,7 @@ class FlightDetailsScreen extends StatelessWidget {
                         Text(
                           "€142.00",
                           style: AppTextStyles.title.copyWith(
-                            fontSize: 24,
+                            fontSize: 24.sp,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -219,7 +220,7 @@ class FlightDetailsScreen extends StatelessWidget {
                   ],
                 ),
 
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
 
                 SizedBox(
                   width: double.infinity,

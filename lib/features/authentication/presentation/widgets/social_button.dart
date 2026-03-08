@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../core/theme/app_colors.dart';
@@ -14,16 +15,16 @@ class SocialButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        height: 48,
+        height: 48.h,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.circular(24.r),
           border: Border.all(color: AppColors.inputBorder),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SvgPicture.asset(icon, width: 20),
-            const SizedBox(width: 8),
+            SvgPicture.asset(icon, width: 16.5.w),
+            SizedBox(width: 8.w),
             Text(
               text,
               style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w500),
