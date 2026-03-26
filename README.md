@@ -55,7 +55,7 @@ The app emphasizes **clean structure, scalability, and maintainability** through
 
 ###  Booking System
 
-* Passenger selection (1–10)
+* Passenger number selection
 * Live price calculation
 * Booking confirmation with reference ID
 * Upcoming & past bookings view
@@ -90,7 +90,7 @@ The app emphasizes **clean structure, scalability, and maintainability** through
 
 ---
 
-## 🏗 Architecture
+##  Architecture
 
 The app follows a **feature-based MVVM + Clean Architecture** approach:
 
