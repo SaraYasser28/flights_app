@@ -42,4 +42,7 @@ class AppIcons {
     size: 24.sp,
     color: AppColors.textSecondary,
   );
+  static const String food = "${_basePath}restaurant.png";
+  static const String business = "${_basePath}briefcase.png";
+  static const String hidden = "${_basePath}hidden.png";
 }

@@ -1,65 +1,73 @@
-import 'package:flights_app/core/theme/app_text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../theme/app_colors.dart';
+import '../theme/app_text_style.dart';
 
 class PrimaryButton extends StatelessWidget {
   final String text;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
+  final Future<void> Function()? onAsyncTap;
   final Widget? trailingIcon;
+  final bool isLoading;
 
   const PrimaryButton({
     super.key,
     required this.text,
-    required this.onTap,
+    this.onTap,
+    this.onAsyncTap,
     this.trailingIcon,
+    this.isLoading = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 56.h,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(24.r),
-        boxShadow: const [
-          BoxShadow(
-            color: AppColors.buttonShadow,
-            offset: Offset(0, 4),
-            blurRadius: 6,
-            spreadRadius: -4,
-          ),
-          BoxShadow(
-            color: AppColors.buttonShadow,
-            offset: Offset(0, 10),
-            blurRadius: 15,
-            spreadRadius: -3,
-          ),
-        ],
-      ),
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          elevation: 0, // remove default shadow
-          backgroundColor: AppColors.primary,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24.r),
-          ),
+    return GestureDetector(
+      onTap: isLoading
+          ? null
+          : (onTap ??
+                (onAsyncTap != null
+                    ? () async {
+                        await onAsyncTap?.call();
+                      }
+                    : null)),
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 14.h),
+        decoration: BoxDecoration(
+          color: AppColors.primary,
+          borderRadius: BorderRadius.circular(30.r),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.primary.withValues(alpha: 0.3),
+              blurRadius: 8.r,
+              offset: Offset(0, 4.h),
+            ),
+          ],
         ),
-        onPressed: onTap,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              text,
-              style: AppTextStyles.body.copyWith(
-                color: AppColors.white,
-                fontWeight: FontWeight.w600,
-                fontSize: 16.sp,
-                height: 24 / 16,
+            if (isLoading)
+              SizedBox(
+                width: 20.w,
+                height: 20.h,
+                child: const CircularProgressIndicator(
+                  strokeWidth: 2,
+                  color: Colors.white,
+                ),
+              )
+            else
+              Text(
+                text,
+                style: AppTextStyles.body.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16.sp,
+                ),
               ),
-            ),
-            if (trailingIcon != null) ...[SizedBox(width: 8.w), trailingIcon!],
+            if (trailingIcon != null && !isLoading) ...[
+              SizedBox(width: 8.w),
+              trailingIcon!,
+            ],
           ],
         ),
       ),

@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../../core/constants/app_icons.dart';
+import '../../../../core/data/models/flight_model.dart';
 import '../../../../core/theme/app_colors.dart';
 
 class FlightTimeline extends StatelessWidget {
-  const FlightTimeline({super.key});
+  final FlightModel flight;
+
+  const FlightTimeline({super.key, required this.flight});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +29,7 @@ class FlightTimeline extends StatelessWidget {
                   shape: BoxShape.circle,
                 ),
                 child: SvgPicture.asset(
-                  AppIcons.france,
+                  _getAirportIcon(flight.from),
                   width: 18.w,
                   colorFilter: const ColorFilter.mode(
                     AppColors.primary,
@@ -34,8 +37,13 @@ class FlightTimeline extends StatelessWidget {
                   ),
                 ),
               ),
-
-              Container(height: 60.h, width: 2.w, color: AppColors.inputBorder),
+              SizedBox(height: 4),
+              Container(
+                height: 75.h,
+                width: 1.5.w,
+                color: AppColors.inputBorder,
+              ),
+              SizedBox(height: 4),
 
               /// ARRIVAL ICON
               Container(
@@ -55,7 +63,6 @@ class FlightTimeline extends StatelessWidget {
               ),
             ],
           ),
-
           SizedBox(width: 16.w),
 
           /// Flight Details
@@ -71,31 +78,28 @@ class FlightTimeline extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "10:40 AM",
+                          flight.departureTime,
                           style: TextStyle(
                             fontSize: 18.sp,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(
-                          "Charles de Gaulle Airport, Paris",
+                          _getAirportName(flight.from, flight.fromCity),
                           style: TextStyle(color: AppColors.grey),
                         ),
                       ],
                     ),
-                    Text("CDG"),
+                    Text(flight.from),
                   ],
                 ),
-
                 SizedBox(height: 24.h),
-
-                const Center(
+                Center(
                   child: Text(
-                    "1H 30M FLIGHT",
-                    style: TextStyle(color: AppColors.grey),
+                    flight.duration.toUpperCase(),
+                    style: const TextStyle(color: AppColors.grey),
                   ),
                 ),
-
                 SizedBox(height: 24.h),
 
                 /// Arrival
@@ -106,19 +110,19 @@ class FlightTimeline extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "10:40 AM",
+                          flight.arrivalTime,
                           style: TextStyle(
                             fontSize: 18.sp,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(
-                          "Heathrow Airport, London",
+                          _getAirportName(flight.to, flight.toCity),
                           style: TextStyle(color: AppColors.grey),
                         ),
                       ],
                     ),
-                    Text("LHR"),
+                    Text(flight.to),
                   ],
                 ),
               ],
@@ -127,5 +131,37 @@ class FlightTimeline extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String _getAirportName(String code, String city) {
+    switch (code) {
+      case 'CDG':
+        return 'Charles de Gaulle Airport, $city';
+      case 'LHR':
+        return 'Heathrow Airport, $city';
+      case 'HND':
+        return 'Haneda Airport, $city';
+      case 'FRA':
+        return 'Frankfurt Airport, $city';
+      case 'DXB':
+        return 'Dubai International Airport, $city';
+      case 'JFK':
+        return 'John F. Kennedy Airport, $city';
+      case 'LAX':
+        return 'Los Angeles International Airport, $city';
+      case 'MAD':
+        return 'Adolfo Suárez Madrid–Barajas Airport, $city';
+      default:
+        return '$city Airport';
+    }
+  }
+
+  String _getAirportIcon(String code) {
+    switch (code) {
+      case 'CDG':
+        return AppIcons.france;
+      default:
+        return AppIcons.france;
+    }
   }
 }

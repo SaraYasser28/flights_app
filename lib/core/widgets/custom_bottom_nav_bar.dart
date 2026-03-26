@@ -24,15 +24,33 @@ class CustomBottomNavBar extends StatelessWidget {
       showUnselectedLabels: true,
       items: [
         BottomNavigationBarItem(
-          icon: SvgPicture.asset(AppIcons.home),
+          icon: SvgPicture.asset(
+            AppIcons.home,
+            colorFilter: ColorFilter.mode(
+              currentIndex == 0 ? AppColors.primary : AppColors.textMuted,
+              BlendMode.srcIn,
+            ),
+          ),
           label: "Home",
         ),
         BottomNavigationBarItem(
-          icon: SvgPicture.asset(AppIcons.booked),
+          icon: SvgPicture.asset(
+            AppIcons.booked,
+            colorFilter: ColorFilter.mode(
+              currentIndex == 1 ? AppColors.primary : AppColors.textMuted,
+              BlendMode.srcIn,
+            ),
+          ),
           label: "Booked",
         ),
         BottomNavigationBarItem(
-          icon: SvgPicture.asset(AppIcons.profile),
+          icon: SvgPicture.asset(
+            AppIcons.profile,
+            colorFilter: ColorFilter.mode(
+              currentIndex == 2 ? AppColors.primary : AppColors.textMuted,
+              BlendMode.srcIn,
+            ),
+          ),
           label: "Profile",
         ),
       ],

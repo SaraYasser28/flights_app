@@ -7,4 +7,7 @@ class AppRoutes {
   static const String home = '/home';
   static const String flightDetails = '/flight-details';
   static const String bookings = '/bookings';
+  static const String booking = '/booking';
+  static const String search = '/search';
+  static const String favorites = '/favorites';
 }
