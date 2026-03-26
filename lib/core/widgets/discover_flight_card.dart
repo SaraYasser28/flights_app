@@ -88,17 +88,15 @@ class DiscoverFlightCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               _buildAirportInfo(
-                code: flight.from,
-                city: flight.fromCity,
                 time: flight.departureTime,
+                airport: flight.departureAirport,
               ),
               SizedBox(width: 12.w),
               Expanded(child: _buildTimeline(duration: flight.duration)),
               SizedBox(width: 12.w),
               _buildAirportInfo(
-                code: flight.to,
-                city: flight.toCity,
                 time: flight.arrivalTime,
+                airport: flight.arrivalAirport,
                 alignRight: true,
               ),
             ],
@@ -184,9 +182,9 @@ class DiscoverFlightCard extends StatelessWidget {
     );
   }
 
+  // Update _buildAirportInfo to use airport objects
   Widget _buildAirportInfo({
-    required String code,
-    required String city,
+    required Airport airport,
     required String time,
     bool alignRight = false,
   }) {
@@ -196,14 +194,17 @@ class DiscoverFlightCard extends StatelessWidget {
           : CrossAxisAlignment.start,
       children: [
         Text(
-          code,
+          airport.code,
           style: AppTextStyles.title.copyWith(
             fontSize: 24.sp,
             fontWeight: FontWeight.bold,
           ),
         ),
         SizedBox(height: 4.h),
-        Text(city, style: AppTextStyles.dividerText.copyWith(fontSize: 12.sp)),
+        Text(
+          airport.city,
+          style: AppTextStyles.dividerText.copyWith(fontSize: 12.sp),
+        ),
         SizedBox(height: 6.h),
         Text(
           time,

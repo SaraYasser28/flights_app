@@ -18,50 +18,53 @@ class FlightTimeline extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          /// Timeline
-          Column(
-            children: [
-              /// DEPARTURE ICON
-              Container(
-                padding: EdgeInsets.all(10.w),
-                decoration: BoxDecoration(
-                  color: AppColors.blueHue,
-                  shape: BoxShape.circle,
-                ),
-                child: SvgPicture.asset(
-                  _getAirportIcon(flight.from),
-                  width: 18.w,
-                  colorFilter: const ColorFilter.mode(
-                    AppColors.primary,
-                    BlendMode.srcIn,
+          /// Timeline Column
+          SizedBox(
+            width: 40.w,
+            child: Column(
+              children: [
+                /// DEPARTURE ICON
+                Container(
+                  padding: EdgeInsets.all(10.w),
+                  decoration: BoxDecoration(
+                    color: AppColors.blueHue,
+                    shape: BoxShape.circle,
+                  ),
+                  child: SvgPicture.asset(
+                    flight.departureAirport.iconAsset,
+                    width: 18.w,
+                    colorFilter: const ColorFilter.mode(
+                      AppColors.primary,
+                      BlendMode.srcIn,
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(height: 4),
-              Container(
-                height: 75.h,
-                width: 1.5.w,
-                color: AppColors.inputBorder,
-              ),
-              SizedBox(height: 4),
+                SizedBox(height: 4.h),
+                Container(
+                  height: 75.h,
+                  width: 1.5.w,
+                  color: AppColors.inputBorder,
+                ),
+                SizedBox(height: 4.h),
 
-              /// ARRIVAL ICON
-              Container(
-                padding: const EdgeInsets.all(10),
-                decoration: const BoxDecoration(
-                  color: AppColors.primary,
-                  shape: BoxShape.circle,
-                ),
-                child: SvgPicture.asset(
-                  AppIcons.landing,
-                  width: 18.w,
-                  colorFilter: const ColorFilter.mode(
-                    AppColors.white,
-                    BlendMode.srcIn,
+                /// ARRIVAL ICON
+                Container(
+                  padding: EdgeInsets.all(10.w),
+                  decoration: const BoxDecoration(
+                    color: AppColors.primary,
+                    shape: BoxShape.circle,
+                  ),
+                  child: SvgPicture.asset(
+                    AppIcons.landing,
+                    width: 18.w,
+                    colorFilter: const ColorFilter.mode(
+                      AppColors.white,
+                      BlendMode.srcIn,
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           SizedBox(width: 16.w),
 
@@ -74,23 +77,42 @@ class FlightTimeline extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          flight.departureTime,
-                          style: TextStyle(
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.bold,
+                    Flexible(
+                      flex: 3,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            flight.departureTime,
+                            style: TextStyle(
+                              fontSize: 18.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                        Text(
-                          _getAirportName(flight.from, flight.fromCity),
-                          style: TextStyle(color: AppColors.grey),
-                        ),
-                      ],
+                          SizedBox(height: 4.h),
+                          Text(
+                            '${flight.departureAirport.name}, ${flight.departureAirport.city}',
+                            style: TextStyle(
+                              color: AppColors.grey,
+                              fontSize: 12.sp,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
                     ),
-                    Text(flight.from),
+                    Flexible(
+                      flex: 1,
+                      child: Text(
+                        flight.departureAirport.code,
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        textAlign: TextAlign.right,
+                      ),
+                    ),
                   ],
                 ),
                 SizedBox(height: 24.h),
@@ -106,23 +128,42 @@ class FlightTimeline extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          flight.arrivalTime,
-                          style: TextStyle(
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.bold,
+                    Flexible(
+                      flex: 3,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            flight.arrivalTime,
+                            style: TextStyle(
+                              fontSize: 18.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                        Text(
-                          _getAirportName(flight.to, flight.toCity),
-                          style: TextStyle(color: AppColors.grey),
-                        ),
-                      ],
+                          SizedBox(height: 4.h),
+                          Text(
+                            '${flight.arrivalAirport.name}, ${flight.arrivalAirport.city}',
+                            style: TextStyle(
+                              color: AppColors.grey,
+                              fontSize: 12.sp,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
                     ),
-                    Text(flight.to),
+                    Flexible(
+                      flex: 1,
+                      child: Text(
+                        flight.arrivalAirport.code,
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        textAlign: TextAlign.right,
+                      ),
+                    ),
                   ],
                 ),
               ],
@@ -131,37 +172,5 @@ class FlightTimeline extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  String _getAirportName(String code, String city) {
-    switch (code) {
-      case 'CDG':
-        return 'Charles de Gaulle Airport, $city';
-      case 'LHR':
-        return 'Heathrow Airport, $city';
-      case 'HND':
-        return 'Haneda Airport, $city';
-      case 'FRA':
-        return 'Frankfurt Airport, $city';
-      case 'DXB':
-        return 'Dubai International Airport, $city';
-      case 'JFK':
-        return 'John F. Kennedy Airport, $city';
-      case 'LAX':
-        return 'Los Angeles International Airport, $city';
-      case 'MAD':
-        return 'Adolfo Suárez Madrid–Barajas Airport, $city';
-      default:
-        return '$city Airport';
-    }
-  }
-
-  String _getAirportIcon(String code) {
-    switch (code) {
-      case 'CDG':
-        return AppIcons.france;
-      default:
-        return AppIcons.france;
-    }
   }
 }

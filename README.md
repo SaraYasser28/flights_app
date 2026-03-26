@@ -1,86 +1,146 @@
-# ✈️ Skiee Flight App UI
+# ✈️ Skiee Flight App
 
-A modern **Flutter flight booking UI application** built using **clean architecture principles** and **reusable components**.
-
-This project focuses on **UI design, responsive layouts, and scalable Flutter project structure**.
+A modern, scalable **Flutter flight booking application** built using **Clean Architecture** and the **MVVM pattern**, featuring a complete in-app authentication and booking experience.
 
 ---
 
-#  Table of Contents
+##  Overview
 
-| Section                                 | Description                        |
-| --------------------------------------- | ---------------------------------- |
-| [Overview](#overview)                   | General description of the project |
-| [Features](#features)                   | Main UI features implemented       |
-| [Project Structure](#project-structure) | Folder architecture                |
-| [Tech Stack](#tech-stack)               | Technologies used                  |
-| [Dependencies](#dependencies)           | Flutter packages used              |
-| [Getting Started](#getting-started)     | How to run the project             |
-| [Screens Included](#screens-included)   | Implemented app screens            |
-| [UI Design](#ui-design)                 | Design goals and UI approach       |
-| [Notes](#notes)                         | Additional project information     |
-| [Author](#author)                       | Project author                     |
+**Skiee** is a fully functional flight booking app designed to deliver a smooth and intuitive user experience. It allows users to:
+
+* 🔐 Create and manage accounts
+* ✈️ Browse and explore flights
+* ❤️ Save favorite flights
+* 📅 Book flights easily
+* 🔍 Search and filter flights
+* 📖 View booking history
+
+The app emphasizes **clean structure, scalability, and maintainability** through well-defined architecture principles.
 
 ---
 
-# Overview
+##  Key Features
 
-**Skiee** is a **flight booking interface prototype** that demonstrates how a modern travel application might look and behave.
+###  Authentication
 
-It includes multiple UI screens such as:
+* User registration with validation
+* Secure email/password login
+* Password visibility toggle
+* Terms & conditions enforcement
+* Session persistence during runtime
 
-* Authentication
-* Home
-* Flight Details
-* Bookings
-* Profile
+###  Home Experience
 
-This project is currently **UI-only** and does not include backend/firebase/database integration in this phase.
+* Personalized greeting
+* Dynamic favorites preview
+* Discover flights section
+* Quick navigation via search
+
+###  Flight Management
+
+* Browse all available flights
+* Detailed flight information:
+
+  * Timeline (departure & arrival)
+  * Aircraft & class details
+  * Amenities (Wi-Fi, meals, USB, etc.)
+  * Carbon emissions estimate
+
+###  Favorites System
+
+* Add/remove flights instantly
+* Real-time UI updates
+* Confirmation dialogs
+* Dedicated favorites screen with count
+
+###  Booking System
+
+* Passenger selection (1–10)
+* Live price calculation
+* Booking confirmation with reference ID
+* Upcoming & past bookings view
+* Prevent duplicate bookings
+
+###  Search & Filters
+
+* Search by airline, city, or airport code
+* Filter by:
+
+  * Class (Economy / Business)
+  * Price range
+  * Airline
+* Sorting options:
+
+  * Price ↑ / ↓
+  * Duration
+* Persistent filter state
+
+###  Profile
+
+* User info display
+* Membership tier
+* Favorites shortcut
+* Secure logout
+
+###  UI/UX
+
+* Responsive design (`flutter_screenutil`)
+* Error handling with snackbars
+* Consistent theming system
 
 ---
 
-# Features
+## 🏗 Architecture
 
-*  Authentication Screens
+The app follows a **feature-based MVVM + Clean Architecture** approach:
 
-  * Sign In
-  * Sign Up
+```
+Presentation Layer  → UI (Screens & Widgets)
+        ↓
+Logic Layer        → Cubits (State Management)
+        ↓
+Domain Layer       → Entities & Repositories
+        ↓
+Data Layer         → Services & Models
+```
 
-*  Home Screen
 
-  * Favorite Flights
-  * Discover Flights
-  * Search Bar
 
-*  Flight Details Screen
-
-  * Flight Timeline
-  * Flight Experience
-  * Flight Extensions
-
-*  Bookings Screen
-
-*  Profile Screen
-
-*  Responsive UI using **flutter_screenutil**
-
-*  Custom Theme System
-
-*  Reusable Widgets
-
-*  Feature-based modular project structure
-
----
-
-# Project Structure
+##  Project Structure
 
 ```
 lib/
 │
+├── main.dart
+│
+├── app/
+│   └── app.dart
+│
 ├── core/
+│   │
 │   ├── constants/
 │   │   ├── app_icons.dart
 │   │   └── app_images.dart
+│   │
+│   ├── data/
+│   │   ├── models/             
+│   │   │   ├── flight_model.dart
+│   │   │   ├── user_model.dart
+│   │   │   ├── mock_flight_data.dart
+│   │   │   └── enum/
+│   │   │       └── flight_class.dart
+│   │   │
+│   │   ├── repositories/
+│   │   │   ├── auth/
+│   │   │   └── flight/
+│   │   │
+│   │   └── services/
+│   │       ├── auth/
+│   │       ├── fav/
+│   │       └── flight/
+│   │
+│   ├── providers/
+│   │   └── app_providers.dart
 │   │
 │   ├── routing/
 │   │   ├── app_router.dart
@@ -90,168 +150,219 @@ lib/
 │   │   ├── app_colors.dart
 │   │   └── app_text_style.dart
 │   │
+│   │
 │   └── widgets/
 │       ├── custom_app_bar.dart
 │       ├── custom_bottom_nav_bar.dart
+│       ├── discover_flight_card.dart
 │       └── primary_button.dart
 │
-├── features/
-│   ├── authentication/
-│   │   └── presentation/
-│   │       ├── screens/
-│   │       │   ├── sign_in_screen.dart
-│   │       │   └── sign_up_screen.dart
-│   │       │
-│   │       └── widgets/
-│   │           ├── input_text_field.dart
-│   │           ├── or_divider.dart
-|   |           ├── terms_dialog.dart
-│   │           └── social_button.dart
-│   │
-│   ├── booking/
-│   │   └── presentation/
-│   │       ├── screens/
-│   │       │   └── bookings_screen.dart
-│   │       │
-│   │       └── widgets/
-│   │           └── build_flight_list.dart
-│   │
-│   ├── flight_details/
-│   │   └── presentation/
-│   │       ├── screens/
-│   │       │   └── flight_details_screen.dart
-│   │       │
-│   │       └── widgets/
-│   │           ├── experience_chip.dart
-│   │           ├── extension_tile.dart
-│   │           └── flight_timeline.dart
-│   │
-│   ├── home/
-│   │   └── presentation/
-│   │       ├── screens/
-│   │       │   └── home_screen.dart
-│   │       │
-│   │       └── widgets/
-│   │           ├── discover_flight_card.dart
-│   │           └── favorite_flight_card.dart
-│   │
-│   ├── profile/
-│   │   └── presentation/
-│   │       ├── screens/
-│   │       │   └── profile_screen.dart
-│   │       │
-│   │       └── widgets/
-│   │           ├── account_card.dart
-│   │           ├── profile_header.dart
-│   │           └── profile_tile.dart
-│   │
-│   └── search/
-│       └── presentation/
-│           └── widgets/
-│               └── custom_search_bar.dart
-│
-└── main.dart
+└── features/
+    │
+    ├── authentication/
+    │   ├── logic/
+    │   │   └── cubit/
+    │   │       ├── auth_cubit.dart
+    │   │       └── auth_state.dart
+    │   │
+    │   └── view/
+    │       ├── screens/
+    │       │   ├── sign_in_screen.dart
+    │       │   └── sign_up_screen.dart
+    │       └── widgets/
+    │           ├── input_text_field.dart
+    │           ├── or_divider.dart
+    │           ├── social_button.dart
+    │           └── terms_dialog.dart
+    │
+    ├── booking/
+    │   ├── data/
+    │   │   ├── models/
+    │   │   │   ├── booking_model.dart
+    │   │   │   └── enum/
+    │   │   │       └── booking_status.dart
+    │   │   ├── repositories/
+    │   │   └── services/
+    │   │
+    │   ├── logic/
+    │   │   └── cubit/
+    │   │       ├── booking_cubit.dart
+    │   │       └── booking_state.dart
+    │   │
+    │   └── view/
+    │       ├── screens/
+    │       │   ├── bookings_screen.dart
+    │       │   └── booking_screen.dart
+    │       └── widgets/
+    │           └── build_flight_list.dart
+    │
+    ├── favorites/
+    │   ├── logic/
+    │   │   └── cubit/
+    │   │       ├── favorites_cubit.dart
+    │   │       └── favorites_state.dart
+    │   │
+    │   └── view/
+    │       ├── screens/
+    │       │   └── favorite_screen.dart
+    │       └── widgets/
+    │           ├── favorite_dialog.dart
+    │           └── favorite_flight_card.dart
+    │
+    ├── flight_details/
+    │   └── presentation/
+    │       ├── screens/
+    │       │   └── flight_details_screen.dart
+    │       └── widgets/
+    │           ├── experience_chip.dart
+    │           ├── extension_tile.dart
+    │           └── flight_timeline.dart
+    │
+    ├── home/
+    │   └── view/
+    │       ├── screens/
+    │       │   └── home_screen.dart
+    │       └── widgets/
+    │
+    ├── profile/
+    │   └── view/
+    │       ├── screens/
+    │       │   └── profile_screen.dart
+    │       └── widgets/
+    │           ├── account_card.dart
+    │           ├── profile_header.dart
+    │           └── profile_tile.dart
+    │
+    └── search/
+        ├── logic/
+        │   └── cubit/
+        │       ├── search_cubit.dart
+        │       └── search_state.dart
+        │
+        └── view/
+            ├── screens/
+            │   └── search_screen.dart
+            └── widgets/
+                ├── custom_search_bar.dart
+                └── filter_bottom_sheet.dart
 ```
-
-This structure follows a **feature-based architecture**, making the project easier to scale and maintain.
 
 ---
 
-# Tech Stack
+##  Tech Stack
 
-| Technology | Usage                |
-| ---------- | -------------------- |
-| Flutter    | UI Framework         |
-| Dart       | Programming Language |
-
----
-
-# Dependencies
-
-Main packages used in the project:
-
-```yaml
-flutter_screenutil: ^5.9.3
-flutter_svg: ^2.0.10
-```
-
-Install dependencies:
-
-```bash
-flutter pub get
-```
+| Technology         | Purpose                |
+| ------------------ | ---------------------- |
+| Flutter            | UI Framework           |
+| Dart               | Programming Language   |
+| flutter_bloc       | State Management       |
+| equatable          | State comparison       |
+| dartz              | Functional programming |
+| flutter_screenutil | Responsive design      |
+| flutter_svg        | SVG rendering          |
 
 ---
 
-# Getting Started
+##  Getting Started
 
-### 1️- Clone the repository
+### Prerequisites
+
+* Flutter
+* Dart
+
+### Installation
 
 ```bash
 git clone https://github.com/SaraYasser28/flights_app.git
-```
-
-### 2️- Navigate to the project directory
-
-```bash
 cd flights_app
-```
-
-### 3️- Install dependencies
-
-```bash
 flutter pub get
-```
-
-### 4️- Run the application
-
-```bash
 flutter run
 ```
 
 ---
 
-# Screens Included
+##  Screens Overview
 
-| Screen         | Status      |
-| -------------- | ----------- |
-| Sign In        | Implemented |
-| Sign Up        | Implemented |
-| Home           | Implemented |
-| Flight Details | Implemented |
-| Bookings       | Implemented |
-| Profile        | Implemented |
+###  Authentication
 
-### Planned Screens
+* Sign In
+* Sign Up
 
-* *See More* button Flights screen
-* Favorite Flights Screen
+###  Home
 
----
+* Favorites preview
+* Discover flights
 
-# UI Design
+###  Flight Details
 
-The UI focuses on:
+* Timeline, amenities, pricing
+* Booking entry point
 
-* Clean and minimal layout
-* Reusable UI components
-* Responsive spacing
-* Consistent typography
-* Modern travel application aesthetics
+###  Search
 
----
+* Real-time filtering
+* Advanced sorting
 
-# Notes
+###  Favorites
 
-* The current project is **UI only**.
-* No backend or API integration is currently implemented.
-* Flight information is **mock data used for UI demonstration**.
-* Backend integration may be implemented in future phases.
+* Manage saved flights
+
+###  Bookings
+
+* Upcoming & past trips
+
+###  Profile
+
+* User info & settings
 
 ---
 
-# Author
+##  Authentication System
 
-Developed by **Sara Yasser Ahmed**.
+* In-memory user storage
+* Full validation pipeline
+* Auto-login after registration
+* Session maintained until logout
 
 ---
+
+##  Favorites System
+
+* Stored in memory run-time
+* Instant UI synchronization across screens
+
+---
+
+##  Booking System
+
+* Dynamic pricing
+* Booking reference generation
+* Duplicate booking prevention
+* Organized booking history
+
+---
+
+##  Search & Filtering
+
+* Multi-field search support
+* Advanced filtering & sorting
+* State persistence in Cubit
+
+---
+
+
+##  Future Improvements
+
+*  Persistent storage (SQLite / Hive) or firebase integration
+*  API integration
+*  Payment system
+*  Push notifications
+*  Dark mode
+
+---
+
+##  Author
+
+**Sara Yasser Ahmed**
+
+* GitHub: [https://github.com/SaraYasser28](https://github.com/SaraYasser28)

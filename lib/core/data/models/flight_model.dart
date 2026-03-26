@@ -1,14 +1,29 @@
 import 'package:equatable/equatable.dart';
+import '../../constants/app_icons.dart';
 import 'enum/flight_class.dart';
+
+class Airport {
+  final String code;
+  final String name;
+  final String city;
+  final String country;
+  final String iconAsset;
+
+  const Airport({
+    required this.code,
+    required this.name,
+    required this.city,
+    required this.country,
+    this.iconAsset = AppIcons.france, // Will be set per airport
+  });
+}
 
 class FlightModel extends Equatable {
   final String id;
   final String airline;
   final String flightNumber;
-  final String from;
-  final String to;
-  final String fromCity;
-  final String toCity;
+  final Airport departureAirport;
+  final Airport arrivalAirport;
   final String departureTime;
   final String arrivalTime;
   final String duration;
@@ -22,10 +37,8 @@ class FlightModel extends Equatable {
     required this.id,
     required this.airline,
     required this.flightNumber,
-    required this.from,
-    required this.to,
-    required this.fromCity,
-    required this.toCity,
+    required this.departureAirport,
+    required this.arrivalAirport,
     required this.departureTime,
     required this.arrivalTime,
     required this.duration,
@@ -36,15 +49,19 @@ class FlightModel extends Equatable {
     this.carbonEmission,
   });
 
+  // Helper getters for backward compatibility
+  String get from => departureAirport.code;
+  String get to => arrivalAirport.code;
+  String get fromCity => departureAirport.city;
+  String get toCity => arrivalAirport.city;
+
   factory FlightModel.fromJson(Map<String, dynamic> json) {
     return FlightModel(
       id: json['id'] as String,
       airline: json['airline'] as String,
       flightNumber: json['flightNumber'] as String,
-      from: json['from'] as String,
-      to: json['to'] as String,
-      fromCity: json['fromCity'] as String,
-      toCity: json['toCity'] as String,
+      departureAirport: _parseAirport(json['departureAirport']),
+      arrivalAirport: _parseAirport(json['arrivalAirport']),
       departureTime: json['departureTime'] as String,
       arrivalTime: json['arrivalTime'] as String,
       duration: json['duration'] as String,
@@ -56,15 +73,40 @@ class FlightModel extends Equatable {
     );
   }
 
+  static Airport _parseAirport(Map<String, dynamic> json) {
+    return Airport(
+      code: json['code'],
+      name: json['name'],
+      city: json['city'],
+      country: json['country'],
+      iconAsset: _getAirportIcon(json['code']),
+    );
+  }
+
+  static String _getAirportIcon(String code) {
+    switch (code) {
+      default:
+        return AppIcons.france;
+    }
+  }
+
   Map<String, dynamic> toJson() {
     return {
       'id': id,
       'airline': airline,
       'flightNumber': flightNumber,
-      'from': from,
-      'to': to,
-      'fromCity': fromCity,
-      'toCity': toCity,
+      'departureAirport': {
+        'code': departureAirport.code,
+        'name': departureAirport.name,
+        'city': departureAirport.city,
+        'country': departureAirport.country,
+      },
+      'arrivalAirport': {
+        'code': arrivalAirport.code,
+        'name': arrivalAirport.name,
+        'city': arrivalAirport.city,
+        'country': arrivalAirport.country,
+      },
       'departureTime': departureTime,
       'arrivalTime': arrivalTime,
       'duration': duration,
@@ -103,10 +145,8 @@ class FlightModel extends Equatable {
     id,
     airline,
     flightNumber,
-    from,
-    to,
-    fromCity,
-    toCity,
+    departureAirport,
+    arrivalAirport,
     departureTime,
     arrivalTime,
     duration,

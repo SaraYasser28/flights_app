@@ -2,15 +2,70 @@ import '../models/flight_model.dart';
 import '../models/enum/flight_class.dart';
 
 class MockFlightData {
+  // Airport definitions
+  static const Airport parisCDG = Airport(
+    code: 'CDG',
+    name: 'Charles de Gaulle Airport',
+    city: 'PARIS',
+    country: 'France',
+  );
+
+  static const Airport londonLHR = Airport(
+    code: 'LHR',
+    name: 'Heathrow Airport',
+    city: 'LONDON',
+    country: 'United Kingdom',
+  );
+
+  static const Airport tokyoHND = Airport(
+    code: 'HND',
+    name: 'Haneda Airport',
+    city: 'TOKYO',
+    country: 'Japan',
+  );
+
+  static const Airport frankfurtFRA = Airport(
+    code: 'FRA',
+    name: 'Frankfurt Airport',
+    city: 'FRANKFURT',
+    country: 'Germany',
+  );
+
+  static const Airport dubaiDXB = Airport(
+    code: 'DXB',
+    name: 'Dubai International Airport',
+    city: 'DUBAI',
+    country: 'UAE',
+  );
+
+  static const Airport newYorkJFK = Airport(
+    code: 'JFK',
+    name: 'John F. Kennedy Airport',
+    city: 'NEW YORK',
+    country: 'USA',
+  );
+
+  static const Airport losAngelesLAX = Airport(
+    code: 'LAX',
+    name: 'Los Angeles International Airport',
+    city: 'LOS ANGELES',
+    country: 'USA',
+  );
+
+  static const Airport madridMAD = Airport(
+    code: 'MAD',
+    name: 'Adolfo Suárez Madrid-Barajas Airport',
+    city: 'MADRID',
+    country: 'Spain',
+  );
+
   static final List<FlightModel> flights = [
     FlightModel(
       id: 'f1',
       airline: 'British Airways',
       flightNumber: 'BA301',
-      from: 'CDG',
-      to: 'LHR',
-      fromCity: 'PARIS',
-      toCity: 'LONDON',
+      departureAirport: parisCDG,
+      arrivalAirport: londonLHR,
       departureTime: '10:10',
       arrivalTime: '10:40',
       duration: '1h 30m',
@@ -24,10 +79,8 @@ class MockFlightData {
       id: 'f2',
       airline: 'Air France',
       flightNumber: 'AF278',
-      from: 'HND',
-      to: 'CDG',
-      fromCity: 'TOKYO',
-      toCity: 'PARIS',
+      departureAirport: tokyoHND,
+      arrivalAirport: parisCDG,
       departureTime: '08:30',
       arrivalTime: '16:20',
       duration: '7h 50m',
@@ -41,10 +94,8 @@ class MockFlightData {
       id: 'f3',
       airline: 'Lufthansa',
       flightNumber: 'LH456',
-      from: 'FRA',
-      to: 'MAD',
-      fromCity: 'FRANKFURT',
-      toCity: 'MADRID',
+      departureAirport: frankfurtFRA,
+      arrivalAirport: madridMAD,
       departureTime: '14:20',
       arrivalTime: '17:00',
       duration: '2h 40m',
@@ -58,10 +109,8 @@ class MockFlightData {
       id: 'f4',
       airline: 'Emirates',
       flightNumber: 'EK202',
-      from: 'DXB',
-      to: 'LHR',
-      fromCity: 'DUBAI',
-      toCity: 'LONDON',
+      departureAirport: dubaiDXB,
+      arrivalAirport: londonLHR,
       departureTime: '13:00',
       arrivalTime: '18:30',
       duration: '5h 30m',
@@ -75,10 +124,8 @@ class MockFlightData {
       id: 'f5',
       airline: 'Delta Airlines',
       flightNumber: 'DL123',
-      from: 'JFK',
-      to: 'LAX',
-      fromCity: 'NEW YORK',
-      toCity: 'LOS ANGELES',
+      departureAirport: newYorkJFK,
+      arrivalAirport: losAngelesLAX,
       departureTime: '09:00',
       arrivalTime: '12:30',
       duration: '3h 30m',
@@ -92,10 +139,8 @@ class MockFlightData {
       id: 'f6',
       airline: 'Qatar Airways',
       flightNumber: 'QR702',
-      from: 'DOH',
-      to: 'CDG',
-      fromCity: 'DOHA',
-      toCity: 'PARIS',
+      departureAirport: dubaiDXB,
+      arrivalAirport: parisCDG,
       departureTime: '07:45',
       arrivalTime: '13:30',
       duration: '6h 45m',
@@ -109,5 +154,9 @@ class MockFlightData {
 
   static List<FlightModel> getDiscoverFlights() {
     return flights;
+  }
+
+  static List<FlightModel> getFavoriteFlights() {
+    return [];
   }
 }

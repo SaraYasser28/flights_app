@@ -170,7 +170,7 @@ class _BookingScreenState extends State<BookingScreen> {
 
               SizedBox(height: 20.h),
 
-              /// Passenger Selection
+              /// Passenger Selection - FIXED OVERFLOW
               Container(
                 padding: EdgeInsets.all(16.w),
                 decoration: BoxDecoration(
@@ -195,50 +195,70 @@ class _BookingScreenState extends State<BookingScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          'Number of Passengers',
-                          style: TextStyle(fontSize: 14.sp),
+                        /// Flexible text to prevent overflow
+                        Flexible(
+                          child: Text(
+                            'Number of Passengers',
+                            style: TextStyle(fontSize: 14.sp),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
                         ),
-                        Row(
-                          children: [
-                            IconButton(
-                              onPressed: _passengers > 1
-                                  ? () {
-                                      setState(() {
-                                        _passengers--;
-                                      });
-                                    }
-                                  : null,
-                              icon: Icon(
-                                Icons.remove_circle_outline,
-                                size: 28.w,
-                                color: _passengers > 1
-                                    ? AppColors.primary
-                                    : AppColors.grey,
+                        SizedBox(width: 8.w),
+
+                        /// Passenger counter - fixed width to prevent shrinking
+                        Container(
+                          constraints: BoxConstraints(minWidth: 100.w),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                onPressed: _passengers > 1
+                                    ? () {
+                                        setState(() {
+                                          _passengers--;
+                                        });
+                                      }
+                                    : null,
+                                padding: EdgeInsets.zero,
+                                constraints: const BoxConstraints(),
+                                icon: Icon(
+                                  Icons.remove_circle_outline,
+                                  size: 28.w,
+                                  color: _passengers > 1
+                                      ? AppColors.primary
+                                      : AppColors.grey,
+                                ),
                               ),
-                            ),
-                            SizedBox(width: 12.w),
-                            Text(
-                              '$_passengers',
-                              style: TextStyle(
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.bold,
+                              SizedBox(width: 8.w),
+                              SizedBox(
+                                width: 30.w,
+                                child: Text(
+                                  '$_passengers',
+                                  style: TextStyle(
+                                    fontSize: 18.sp,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
                               ),
-                            ),
-                            SizedBox(width: 12.w),
-                            IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  _passengers++;
-                                });
-                              },
-                              icon: Icon(
-                                Icons.add_circle_outline,
-                                size: 28.w,
-                                color: AppColors.primary,
+                              SizedBox(width: 8.w),
+                              IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _passengers++;
+                                  });
+                                },
+                                padding: EdgeInsets.zero,
+                                constraints: const BoxConstraints(),
+                                icon: Icon(
+                                  Icons.add_circle_outline,
+                                  size: 28.w,
+                                  color: AppColors.primary,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ],
                     ),
