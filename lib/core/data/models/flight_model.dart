@@ -14,7 +14,7 @@ class Airport {
     required this.name,
     required this.city,
     required this.country,
-    this.iconAsset = AppIcons.france, // Will be set per airport
+    this.iconAsset = AppIcons.france,
   });
 }
 
