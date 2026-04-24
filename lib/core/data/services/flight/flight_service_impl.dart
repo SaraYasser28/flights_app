@@ -21,35 +21,39 @@ class FlightServiceImpl implements FlightService {
     final arrivalId = to ?? 'AUS';
     final outboundDate = date ?? DateTime.now();
 
-    try {
-      final response = await api.get(
-        ApiConstants.baseUrl,
-        queryParameters: {
-          "engine": "google_flights",
-          "api_key": ApiConstants.serpApiKey,
-          "departure_id": departureId,
-          "arrival_id": arrivalId,
-          "outbound_date": outboundDate.toIso8601String().split('T').first,
-          "adults": passengers ?? 1,
-          "currency": "USD",
-          "type": "2",
-          "travel_class": travelClass,
-        },
-      );
+    final queryParameters = <String, dynamic>{
+      "engine": "google_flights",
+      "api_key": ApiConstants.serpApiKey,
+      "departure_id": departureId,
+      "arrival_id": arrivalId,
+      "outbound_date": outboundDate.toIso8601String().split('T').first,
+      "adults": passengers ?? 1,
+      "currency": "USD",
+      "type": "2",
+    };
 
-      final bestFlightsJson = (response['best_flights'] as List?) ?? [];
-      final otherFlightsJson = (response['other_flights'] as List?) ?? [];
-
-      final allFlights = <FlightModel>[
-        ...bestFlightsJson.map((json) => FlightModel.fromApi(json)),
-        ...otherFlightsJson.map((json) => FlightModel.fromApi(json)),
-      ];
-
-      return allFlights;
-    } catch (e) {
-      // If API fails, return empty list so UI can show error/retry
-      return [];
+    if (travelClass != null) {
+      queryParameters["travel_class"] = travelClass;
     }
+
+    final response = await api.get(
+      ApiConstants.baseUrl,
+      queryParameters: queryParameters,
+    );
+
+    if (response is Map<String, dynamic> && response.containsKey('error')) {
+      throw Exception(response['error']?.toString() ?? 'API Error');
+    }
+
+    final bestFlightsJson = (response['best_flights'] as List?) ?? [];
+    final otherFlightsJson = (response['other_flights'] as List?) ?? [];
+
+    final allFlights = <FlightModel>[
+      ...bestFlightsJson.map((json) => FlightModel.fromApi(json)),
+      ...otherFlightsJson.map((json) => FlightModel.fromApi(json)),
+    ];
+
+    return allFlights;
   }
 
   @override

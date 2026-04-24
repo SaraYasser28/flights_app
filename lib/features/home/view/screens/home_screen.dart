@@ -242,12 +242,98 @@ class HomeScreen extends StatelessWidget {
                 /// Discover Flights Section
                 BlocBuilder<FlightsCubit, FlightsState>(
                   builder: (context, state) {
-                    if (state is FlightsLoading) {
-                      return const Center(child: CircularProgressIndicator());
+                    if (state is FlightsLoading || state is FlightsInitial) {
+                      return Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 24.w),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Discover Flights",
+                              style: AppTextStyles.title.copyWith(
+                                fontSize: 18.sp,
+                              ),
+                            ),
+                            SizedBox(height: 16.h),
+                            const Center(
+                              child: Padding(
+                                padding: EdgeInsets.all(24.0),
+                                child: CircularProgressIndicator(),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
                     }
 
                     if (state is FlightsError) {
-                      return Center(child: Text(state.message));
+                      return Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 24.w),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Discover Flights",
+                              style: AppTextStyles.title.copyWith(
+                                fontSize: 18.sp,
+                              ),
+                            ),
+                            SizedBox(height: 16.h),
+                            Container(
+                              padding: EdgeInsets.all(16.w),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(16.r),
+                                border: Border.all(
+                                  color: AppColors.inputBorder,
+                                ),
+                              ),
+                              child: Column(
+                                children: [
+                                  Icon(
+                                    Icons.error_outline,
+                                    color: AppColors.red,
+                                    size: 32.w,
+                                  ),
+                                  SizedBox(height: 8.h),
+                                  Text(
+                                    state.message,
+                                    textAlign: TextAlign.center,
+                                    style: AppTextStyles.body.copyWith(
+                                      color: AppColors.grey,
+                                    ),
+                                  ),
+                                  SizedBox(height: 12.h),
+                                  GestureDetector(
+                                    onTap: () {
+                                      context.read<FlightsCubit>().getFlights();
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 16.w,
+                                        vertical: 8.h,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: AppColors.primary,
+                                        borderRadius: BorderRadius.circular(
+                                          20.r,
+                                        ),
+                                      ),
+                                      child: Text(
+                                        "Retry",
+                                        style: AppTextStyles.body.copyWith(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
                     }
 
                     if (state is FlightsLoaded) {
@@ -267,29 +353,88 @@ class HomeScreen extends StatelessWidget {
                           ),
                           SizedBox(height: 16.h),
 
-                          ListView.builder(
-                            padding: EdgeInsets.symmetric(horizontal: 24.w),
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: flights.length,
-                            itemBuilder: (context, index) {
-                              final flight = flights[index];
-
-                              return Padding(
-                                padding: EdgeInsets.only(bottom: 16.h),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    Navigator.pushNamed(
-                                      context,
-                                      AppRoutes.flightDetails,
-                                      arguments: flight,
-                                    );
-                                  },
-                                  child: DiscoverFlightCard(flight: flight),
+                          if (flights.isEmpty)
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 24.w),
+                              child: Container(
+                                padding: EdgeInsets.all(16.w),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(16.r),
+                                  border: Border.all(
+                                    color: AppColors.inputBorder,
+                                  ),
                                 ),
-                              );
-                            },
-                          ),
+                                child: Column(
+                                  children: [
+                                    Icon(
+                                      Icons.flight_takeoff_outlined,
+                                      color: AppColors.grey,
+                                      size: 32.w,
+                                    ),
+                                    SizedBox(height: 8.h),
+                                    Text(
+                                      "No flights found",
+                                      textAlign: TextAlign.center,
+                                      style: AppTextStyles.body.copyWith(
+                                        color: AppColors.grey,
+                                      ),
+                                    ),
+                                    SizedBox(height: 12.h),
+                                    GestureDetector(
+                                      onTap: () {
+                                        context
+                                            .read<FlightsCubit>()
+                                            .getFlights();
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 16.w,
+                                          vertical: 8.h,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          color: AppColors.primary,
+                                          borderRadius: BorderRadius.circular(
+                                            20.r,
+                                          ),
+                                        ),
+                                        child: Text(
+                                          "Retry",
+                                          style: AppTextStyles.body.copyWith(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
+                          else
+                            ListView.builder(
+                              padding: EdgeInsets.symmetric(horizontal: 24.w),
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: flights.length,
+                              itemBuilder: (context, index) {
+                                final flight = flights[index];
+
+                                return Padding(
+                                  padding: EdgeInsets.only(bottom: 16.h),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.pushNamed(
+                                        context,
+                                        AppRoutes.flightDetails,
+                                        arguments: flight,
+                                      );
+                                    },
+                                    child: DiscoverFlightCard(flight: flight),
+                                  ),
+                                );
+                              },
+                            ),
                         ],
                       );
                     }

@@ -9,9 +9,11 @@ import '../core/theme/app_colors.dart';
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  static final _appProviders = AppProviders();
+
   @override
   Widget build(BuildContext context) {
-    final appProviders = AppProviders();
+    final appProviders = _appProviders;
 
     return MultiBlocProvider(
       providers: appProviders.providers,

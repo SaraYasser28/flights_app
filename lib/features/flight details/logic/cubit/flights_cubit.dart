@@ -19,17 +19,21 @@ class FlightsCubit extends Cubit<FlightsState> {
   }) async {
     emit(FlightsLoading());
 
-    final result = await flightRepository.getFlights(
-      from: from,
-      to: to,
-      date: date,
-      travelClass: travelClass,
-    );
+    try {
+      final result = await flightRepository.getFlights(
+        from: from,
+        to: to,
+        date: date,
+        travelClass: travelClass,
+      );
 
-    result.fold((error) => emit(FlightsError(error)), (flights) {
-      _cachedFlights = flights;
-      emit(FlightsLoaded(flights));
-    });
+      result.fold((error) => emit(FlightsError(error)), (flights) {
+        _cachedFlights = flights;
+        emit(FlightsLoaded(flights));
+      });
+    } catch (e) {
+      emit(FlightsError('Unexpected error: ${e.toString()}'));
+    }
   }
 
   Future<void> getFlightById(String id) async {
