@@ -6,7 +6,12 @@ import 'enum/booking_status.dart';
 class BookingModel extends Equatable {
   final String id;
   final String userId;
-  final FlightModel flight;
+
+  /// API identifier
+  final String bookingToken;
+  final String? departureToken;
+
+  final FlightModel? flight;
   final DateTime bookingDate;
   final int numberOfPassengers;
   final double totalPrice;
@@ -16,7 +21,9 @@ class BookingModel extends Equatable {
   const BookingModel({
     required this.id,
     required this.userId,
-    required this.flight,
+    required this.bookingToken,
+    this.departureToken,
+    this.flight,
     required this.bookingDate,
     required this.numberOfPassengers,
     required this.totalPrice,
@@ -24,65 +31,42 @@ class BookingModel extends Equatable {
     this.bookingReference,
   });
 
-  factory BookingModel.fromJson(Map<String, dynamic> json) {
+  factory BookingModel.fromApi(Map<String, dynamic> json) {
     return BookingModel(
-      id: json['id'] as String,
-      userId: json['userId'] as String,
-      flight: FlightModel.fromJson(json['flight'] as Map<String, dynamic>),
-      bookingDate: DateTime.parse(json['bookingDate'] as String),
-      numberOfPassengers: json['numberOfPassengers'] as int,
-      totalPrice: (json['totalPrice'] as num).toDouble(),
-      status: BookingStatus.values.firstWhere(
-        (e) => e.toString() == 'BookingStatus.${json['status']}',
-      ),
-      bookingReference: json['bookingReference'] as String?,
+      id: json['id'],
+      userId: json['user_id'],
+      bookingToken: json['booking_token'],
+      departureToken: json['departure_token'],
+      bookingDate: DateTime.parse(json['booking_date']),
+      numberOfPassengers: json['passengers'],
+      totalPrice: (json['total_price'] as num).toDouble(),
+      status: json['status'] == 'upcoming'
+          ? BookingStatus.upcoming
+          : BookingStatus.past,
+      bookingReference: json['reference'],
+      flight: json['flight'] != null
+          ? FlightModel.fromApi(json['flight'])
+          : null,
     );
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toApi() {
     return {
-      'id': id,
-      'userId': userId,
-      'flight': flight.toJson(),
-      'bookingDate': bookingDate.toIso8601String(),
-      'numberOfPassengers': numberOfPassengers,
-      'totalPrice': totalPrice,
-      'status': status.toString().split('.').last,
-      'bookingReference': bookingReference,
+      "booking_token": bookingToken,
+      "departure_token": departureToken,
+      "passengers": numberOfPassengers,
     };
-  }
-
-  BookingModel copyWith({
-    String? id,
-    String? userId,
-    FlightModel? flight,
-    DateTime? bookingDate,
-    int? numberOfPassengers,
-    double? totalPrice,
-    BookingStatus? status,
-    String? bookingReference,
-  }) {
-    return BookingModel(
-      id: id ?? this.id,
-      userId: userId ?? this.userId,
-      flight: flight ?? this.flight,
-      bookingDate: bookingDate ?? this.bookingDate,
-      numberOfPassengers: numberOfPassengers ?? this.numberOfPassengers,
-      totalPrice: totalPrice ?? this.totalPrice,
-      status: status ?? this.status,
-      bookingReference: bookingReference ?? this.bookingReference,
-    );
   }
 
   @override
   List<Object?> get props => [
     id,
     userId,
-    flight,
+    bookingToken,
+    departureToken,
     bookingDate,
     numberOfPassengers,
     totalPrice,
     status,
-    bookingReference,
   ];
 }

@@ -33,7 +33,7 @@ class BookingServiceImpl implements BookingService {
   ) async {
     await Future.delayed(const Duration(seconds: 2));
     final existingBooking = _mockBookings.any(
-      (b) => b.userId == userId && b.flight.id == flightId,
+      (b) => b.userId == userId && b.flight!.id == flightId,
     );
 
     if (existingBooking) {
@@ -50,6 +50,9 @@ class BookingServiceImpl implements BookingService {
       status: BookingStatus.upcoming,
       bookingReference:
           'SK${DateTime.now().millisecondsSinceEpoch.toString().substring(7)}',
+      bookingToken:
+          flight.bookingToken ??
+          'token_${DateTime.now().millisecondsSinceEpoch}',
     );
 
     _mockBookings.add(newBooking);

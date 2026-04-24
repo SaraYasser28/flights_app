@@ -54,7 +54,7 @@ class FavoriteFlightCard extends StatelessWidget {
                       top: Radius.circular(20.r),
                     ),
                     child: Image.asset(
-                      _getDestinationImage(flight.toCity),
+                      _getDestinationImage(flight.firstSegment.arrival.name),
                       width: double.infinity,
                       fit: BoxFit.cover,
                     ),
@@ -99,7 +99,7 @@ class FavoriteFlightCard extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    "${flight.fromCity} to ${flight.toCity}",
+                    "${flight.firstSegment.departure.city.toUpperCase()} to ${flight.firstSegment.arrival.city.toUpperCase()}",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 14.sp,
@@ -112,7 +112,7 @@ class FavoriteFlightCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Direct • ${flight.duration}",
+                        "Direct • ${flight.formattedDuration}",
                         style: AppTextStyles.body.copyWith(
                           fontSize: 12.sp,
                           color: AppColors.grey,

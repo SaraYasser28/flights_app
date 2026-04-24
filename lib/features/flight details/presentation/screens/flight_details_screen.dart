@@ -22,11 +22,19 @@ import '../widgets/extension_tile.dart';
 
 class FlightDetailsScreen extends StatelessWidget {
   final String flightId;
+  final FlightModel? flight;
 
-  const FlightDetailsScreen({super.key, required this.flightId});
+  const FlightDetailsScreen({super.key, required this.flightId, this.flight});
 
   @override
   Widget build(BuildContext context) {
+    if (flight != null) {
+      return _buildScaffold(context, flight!);
+    }
+    return _buildScaffold(context, null);
+  }
+
+  Widget _buildScaffold(BuildContext context, FlightModel? initialFlight) {
     return Scaffold(
       backgroundColor: AppColors.lightGreyBackground,
       appBar: const CustomAppBar(
@@ -34,31 +42,30 @@ class FlightDetailsScreen extends StatelessWidget {
         title: "Flight Details",
         iconColor: AppColors.white,
       ),
+      body: initialFlight != null
+          ? _buildContent(context, initialFlight)
+          : BlocBuilder<FlightsCubit, FlightsState>(
+              builder: (context, state) {
+                if (state is FlightDetailsLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                }
 
-      body: BlocBuilder<FlightsCubit, FlightsState>(
-        builder: (context, state) {
-          if (state is FlightDetailsLoading) {
-            return const Center(child: CircularProgressIndicator());
-          }
+                if (state is FlightDetailsError) {
+                  return Center(
+                    child: Text(
+                      state.message,
+                      style: const TextStyle(color: Colors.red),
+                    ),
+                  );
+                }
 
-          if (state is FlightDetailsError) {
-            return Center(
-              child: Text(
-                state.message,
-                style: const TextStyle(color: Colors.red),
-              ),
-            );
-          }
+                if (state is FlightDetailsLoaded) {
+                  return _buildContent(context, state.flight);
+                }
 
-          if (state is FlightDetailsLoaded) {
-            final flight = state.flight;
-            return _buildContent(context, flight);
-          }
-
-          // fallback
-          return const SizedBox();
-        },
-      ),
+                return const SizedBox();
+              },
+            ),
     );
   }
 
@@ -66,7 +73,12 @@ class FlightDetailsScreen extends StatelessWidget {
   ///  MAIN UI
   /// =========================
   Widget _buildContent(BuildContext context, FlightModel flight) {
-    final amenities = flight.amenities;
+    final amenities = flight.segments.isNotEmpty
+        ? flight.segments.first.amenities
+        : [];
+
+    final travelClass = flight.firstSegment.travelClass.toUpperCase();
+    final isEconomy = travelClass.contains('ECONOMY');
 
     return Column(
       children: [
@@ -126,8 +138,8 @@ class FlightDetailsScreen extends StatelessWidget {
                         final confirm =
                             await FavoriteDialog.showRemoveConfirmation(
                               context,
-                              fromCity: flight.fromCity,
-                              toCity: flight.toCity,
+                              fromCity: flight.firstSegment.departure.name,
+                              toCity: flight.firstSegment.arrival.name,
                             );
 
                         if (confirm == true && context.mounted) {
@@ -136,9 +148,7 @@ class FlightDetailsScreen extends StatelessWidget {
                           );
                         }
                       } else {
-                        context.read<FavoritesCubit>().addToFavorites(
-                          flight.id,
-                        );
+                        context.read<FavoritesCubit>().addToFavorites(flight);
                       }
                     },
                     child: Container(
@@ -202,10 +212,8 @@ class FlightDetailsScreen extends StatelessWidget {
                       ),
                       SizedBox(width: 10.w),
                       ExperienceChip(
-                        icon: flight.flightClass.name == 'business'
-                            ? AppIcons.business
-                            : AppIcons.economy,
-                        label: flight.flightClass.displayName,
+                        icon: isEconomy ? AppIcons.economy : AppIcons.business,
+                        label: flight.firstSegment.travelClass.toUpperCase(),
                       ),
                     ],
                   ),
@@ -234,35 +242,44 @@ class FlightDetailsScreen extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 20.w),
                   child: Column(
                     children: [
-                      if (amenities.contains('Wi-Fi'))
+                      if (amenities.any(
+                        (a) => a.toLowerCase().contains('wi-fi'),
+                      ))
                         const ExtensionTile(
                           icon: AppIcons.wifi,
                           text: "Wi-Fi available",
                         ),
-                      if (amenities.contains('USB outlets'))
+                      if (amenities.any((a) => a.toLowerCase().contains('usb')))
                         const ExtensionTile(
                           icon: AppIcons.usb,
                           text: "USB outlets available",
                         ),
-                      if (amenities.contains('On-demand video'))
+                      if (amenities.any(
+                        (a) => a.toLowerCase().contains('video'),
+                      ))
                         const ExtensionTile(
                           icon: AppIcons.video,
                           text: "On-demand entertainment",
                         ),
-                      if (amenities.contains('Meals included'))
+                      if (amenities.any(
+                        (a) => a.toLowerCase().contains('meal'),
+                      ))
                         const ExtensionTile(
                           icon: AppIcons.food,
                           text: "Complimentary meals",
                         ),
-                      if (amenities.contains('Extra legroom'))
+                      if (amenities.any(
+                        (a) => a.toLowerCase().contains('legroom'),
+                      ))
                         const ExtensionTile(
                           icon: AppIcons.legroom,
                           text: "Extra legroom seats",
                         ),
-                      if (flight.carbonEmission != null)
+                      if (flight.carbonEmissionKg != null)
                         ExtensionTile(
                           icon: AppIcons.energySaver,
-                          text: "Carbon emissions: ${flight.carbonEmission} kg",
+                          text:
+                              "Carbon emissions: ${flight.carbonEmissionKg!.toStringAsFixed(0)} kg",
                           iconColor: AppColors.green,
                         ),
                     ],
@@ -300,7 +317,7 @@ class FlightDetailsScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  if (flight.flightClass.name == 'economy')
+                  if (isEconomy)
                     const Text(
                       "SAVER FARE",
                       style: TextStyle(

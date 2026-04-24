@@ -38,7 +38,7 @@ class BookingCubit extends Cubit<BookingState> {
       pastResult.fold((error) => emit(BookingError(error)), (past) {
         _bookedFlightIds.clear();
         for (var booking in [...upcoming, ...past]) {
-          _bookedFlightIds.add(booking.flight.id);
+          _bookedFlightIds.add(booking.flight!.id);
         }
         _isInitialized = true;
         emit(BookingLoaded(upcomingBookings: upcoming, pastBookings: past));
@@ -74,7 +74,7 @@ class BookingCubit extends Cubit<BookingState> {
     );
 
     result.fold((error) => emit(BookingError(error)), (booking) {
-      _bookedFlightIds.add(booking.flight.id);
+      _bookedFlightIds.add(booking.flight!.id);
       emit(BookingSuccess(booking));
       // Reload bookings to update the list
       loadBookings();

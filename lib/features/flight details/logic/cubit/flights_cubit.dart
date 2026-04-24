@@ -11,13 +11,19 @@ class FlightsCubit extends Cubit<FlightsState> {
 
   List<FlightModel> _cachedFlights = [];
 
-  Future<void> getFlights({String? from, String? to, DateTime? date}) async {
+  Future<void> getFlights({
+    String? from,
+    String? to,
+    DateTime? date,
+    int? travelClass,
+  }) async {
     emit(FlightsLoading());
 
     final result = await flightRepository.getFlights(
       from: from,
       to: to,
       date: date,
+      travelClass: travelClass,
     );
 
     result.fold((error) => emit(FlightsError(error)), (flights) {
@@ -37,13 +43,15 @@ class FlightsCubit extends Cubit<FlightsState> {
         return;
       }
 
-      final result = await flightRepository.getFlightById(id);
+      final result = await flightRepository.getFlights();
 
       result.fold((error) => emit(FlightDetailsError(error)), (flight) {
-        if (flight == null) {
+        if (flight.where((f) => f.id == id).toList().isEmpty) {
           emit(FlightDetailsError("Flight not found"));
         } else {
-          emit(FlightDetailsLoaded(flight));
+          emit(
+            FlightDetailsLoaded(flight.where((f) => f.id == id).toList().first),
+          );
         }
       });
     } catch (e) {

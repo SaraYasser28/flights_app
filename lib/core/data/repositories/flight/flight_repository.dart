@@ -7,16 +7,18 @@ abstract class FlightRepository {
     String? to,
     DateTime? date,
     int? passengers,
+    int? travelClass,
   });
 
   Future<Either<String, List<FlightModel>>> getFavoriteFlights(String userId);
 
-  Future<Either<String, FlightModel?>> getFlightById(String flightId);
-
-  Future<Either<String, void>> addToFavorites(String userId, String flightId);
+  Future<Either<String, void>> addToFavorites(
+    String userId,
+    FlightModel flight,
+  );
 
   Future<Either<String, void>> removeFromFavorites(
     String userId,
-    String flightId,
+    FlightModel flight,
   );
 }

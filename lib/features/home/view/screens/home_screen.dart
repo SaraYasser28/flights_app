@@ -105,10 +105,6 @@ class HomeScreen extends StatelessWidget {
                       favoriteFlights = state.favoriteFlights;
                     }
 
-                    if (favoriteFlights.isEmpty) {
-                      return const SizedBox.shrink();
-                    }
-
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -123,77 +119,125 @@ class HomeScreen extends StatelessWidget {
                                   fontSize: 18.sp,
                                 ),
                               ),
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                    context,
-                                    AppRoutes.favorites,
-                                  );
-                                },
-                                child: Text(
-                                  "See all",
-                                  style: AppTextStyles.primaryLink,
+                              if (favoriteFlights.isNotEmpty)
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                      context,
+                                      AppRoutes.favorites,
+                                    );
+                                  },
+                                  child: Text(
+                                    "See all",
+                                    style: AppTextStyles.primaryLink,
+                                  ),
                                 ),
-                              ),
                             ],
                           ),
                         ),
                         SizedBox(height: 16.h),
-                        SizedBox(
-                          height: 290.h,
-                          child: ListView.builder(
-                            padding: EdgeInsets.symmetric(horizontal: 24.w),
-                            scrollDirection: Axis.horizontal,
-                            itemCount: favoriteFlights.length,
-                            itemBuilder: (context, index) {
-                              final flight = favoriteFlights[index];
-                              return Padding(
-                                padding: EdgeInsets.only(right: 16.w),
-                                child: FavoriteFlightCard(
-                                  flight: flight,
-                                  onTap: () {
-                                    Navigator.pushNamed(
-                                      context,
-                                      AppRoutes.flightDetails,
-                                      arguments: flight,
-                                    );
-                                  },
-                                  isFavorite: true,
-                                  onFavoriteTap: () async {
-                                    final confirm =
-                                        await FavoriteDialog.showRemoveConfirmation(
-                                          context,
-                                          fromCity: flight.fromCity,
-                                          toCity: flight.toCity,
-                                        );
-                                    if (confirm == true && context.mounted) {
-                                      context
-                                          .read<FavoritesCubit>()
-                                          .removeFromFavorites(flight.id);
-                                      if (context.mounted) {
-                                        ScaffoldMessenger.of(
-                                          context,
-                                        ).showSnackBar(
-                                          const SnackBar(
-                                            content: Text(
-                                              'Removed from favorites',
-                                            ),
-                                            duration: Duration(seconds: 1),
-                                          ),
-                                        );
-                                      }
-                                    }
-                                  },
+
+                        if (favoriteFlights.isEmpty)
+                          Container(
+                            margin: EdgeInsets.symmetric(horizontal: 24.w),
+                            padding: EdgeInsets.symmetric(
+                              vertical: 24.h,
+                              horizontal: 16.w,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(16.r),
+                              border: Border.all(color: AppColors.inputBorder),
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.favorite_border,
+                                  color: AppColors.grey,
+                                  size: 28.w,
                                 ),
-                              );
-                            },
+                                SizedBox(width: 12.w),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "No favourites yet",
+                                        style: AppTextStyles.title.copyWith(
+                                          fontSize: 14.sp,
+                                        ),
+                                      ),
+                                      SizedBox(height: 4.h),
+                                      Text(
+                                        "Flights you save will appear here",
+                                        style: AppTextStyles.body.copyWith(
+                                          color: AppColors.grey,
+                                          fontSize: 12.sp,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        else
+                          SizedBox(
+                            height: 290.h,
+                            child: ListView.builder(
+                              padding: EdgeInsets.symmetric(horizontal: 24.w),
+                              scrollDirection: Axis.horizontal,
+                              itemCount: favoriteFlights.length,
+                              itemBuilder: (context, index) {
+                                final flight = favoriteFlights[index];
+                                return Padding(
+                                  padding: EdgeInsets.only(right: 16.w),
+                                  child: FavoriteFlightCard(
+                                    flight: flight,
+                                    onTap: () {
+                                      Navigator.pushNamed(
+                                        context,
+                                        AppRoutes.flightDetails,
+                                        arguments: flight,
+                                      );
+                                    },
+                                    isFavorite: true,
+                                    onFavoriteTap: () async {
+                                      final confirm =
+                                          await FavoriteDialog.showRemoveConfirmation(
+                                            context,
+                                            fromCity: flight.from,
+                                            toCity: flight.to,
+                                          );
+                                      if (confirm == true && context.mounted) {
+                                        context
+                                            .read<FavoritesCubit>()
+                                            .removeFromFavorites(flight.id);
+                                        if (context.mounted) {
+                                          ScaffoldMessenger.of(
+                                            context,
+                                          ).showSnackBar(
+                                            const SnackBar(
+                                              content: Text(
+                                                'Removed from favorites',
+                                              ),
+                                              duration: Duration(seconds: 1),
+                                            ),
+                                          );
+                                        }
+                                      }
+                                    },
+                                  ),
+                                );
+                              },
+                            ),
                           ),
-                        ),
+                        SizedBox(height: 24.h),
                       ],
                     );
                   },
                 ),
-                SizedBox(height: 24.h),
 
                 /// Discover Flights Section
                 BlocBuilder<FlightsCubit, FlightsState>(

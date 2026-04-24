@@ -205,14 +205,14 @@ class _SearchScreenState extends State<SearchScreen> {
       ),
       builder: (context) => FilterBottomSheet(
         maxPossiblePrice: maxPrice,
-        initialFlightClass: currentFilters['flightClass'],
         initialPriceRange: currentFilters['priceRange'],
         initialAirline: currentFilters['airline'],
+        initialTravelClass: currentFilters['travelClass'],
         onApplyFilters: (filters) {
           _searchCubit.applyFilters(
-            flightClass: filters['flightClass'],
             priceRange: filters['priceRange'],
             airline: filters['airline'],
+            travelClass: filters['travelClass'],
           );
         },
         onClearFilters: () {

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../core/data/models/enum/flight_class.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_style.dart';
 import '../../../../core/widgets/primary_button.dart';
@@ -8,18 +7,18 @@ import '../../../../core/widgets/primary_button.dart';
 class FilterBottomSheet extends StatefulWidget {
   final Function(Map<String, dynamic>) onApplyFilters;
   final VoidCallback onClearFilters;
-  final FlightClass? initialFlightClass;
   final RangeValues? initialPriceRange;
   final String? initialAirline;
+  final int? initialTravelClass;
   final double maxPossiblePrice;
 
   const FilterBottomSheet({
     super.key,
     required this.onApplyFilters,
     required this.onClearFilters,
-    this.initialFlightClass,
     this.initialPriceRange,
     this.initialAirline,
+    this.initialTravelClass,
     this.maxPossiblePrice = 1000,
   });
 
@@ -28,33 +27,33 @@ class FilterBottomSheet extends StatefulWidget {
 }
 
 class _FilterBottomSheetState extends State<FilterBottomSheet> {
-  late FlightClass? _selectedClass;
   late RangeValues _priceRange;
   late TextEditingController _airlineController;
+  int? _travelClass;
   bool _isApplying = false;
 
   @override
   void initState() {
     super.initState();
-    _selectedClass = widget.initialFlightClass;
     _priceRange =
         widget.initialPriceRange ?? RangeValues(0, widget.maxPossiblePrice);
     _airlineController = TextEditingController(
       text: widget.initialAirline ?? '',
     );
+    _travelClass = widget.initialTravelClass;
   }
 
   @override
   void didUpdateWidget(FilterBottomSheet oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.initialFlightClass != _selectedClass) {
-      _selectedClass = widget.initialFlightClass;
-    }
     if (widget.initialPriceRange != null) {
       _priceRange = widget.initialPriceRange!;
     }
     if (widget.initialAirline != _airlineController.text) {
       _airlineController.text = widget.initialAirline ?? '';
+    }
+    if (widget.initialTravelClass != _travelClass) {
+      _travelClass = widget.initialTravelClass;
     }
   }
 
@@ -89,17 +88,20 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
           ),
           SizedBox(height: 20.h),
 
-          // Flight Class Filter
           Text(
             'Flight Class',
             style: AppTextStyles.body.copyWith(fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 12.h),
-          Wrap(
-            spacing: 8.w,
+          Row(
             children: [
-              _buildClassChip(FlightClass.economy, 'Economy'),
-              _buildClassChip(FlightClass.business, 'Business'),
+              _buildClassChip(
+                label: 'Economy',
+                value: 1,
+                icon: Icons.flight_class,
+              ),
+              SizedBox(width: 12.w),
+              _buildClassChip(label: 'Business', value: 3, icon: Icons.work),
             ],
           ),
 
@@ -172,6 +174,53 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
     );
   }
 
+  Widget _buildClassChip({
+    required String label,
+    required int value,
+    required IconData icon,
+  }) {
+    final isSelected = _travelClass == value;
+    return Expanded(
+      child: GestureDetector(
+        onTap: _isApplying
+            ? null
+            : () {
+                setState(() {
+                  _travelClass = isSelected ? null : value;
+                });
+              },
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: 12.h),
+          decoration: BoxDecoration(
+            color: isSelected ? AppColors.primary : AppColors.inputBackground,
+            borderRadius: BorderRadius.circular(12.r),
+            border: Border.all(
+              color: isSelected ? AppColors.primary : AppColors.inputBorder,
+            ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                icon,
+                size: 18.w,
+                color: isSelected ? Colors.white : AppColors.textSecondary,
+              ),
+              SizedBox(width: 8.w),
+              Text(
+                label,
+                style: AppTextStyles.body.copyWith(
+                  color: isSelected ? Colors.white : AppColors.textPrimary,
+                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   Future<void> _applyFilters() async {
     if (!mounted) return;
     setState(() {
@@ -179,11 +228,11 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
     });
 
     final filters = {
-      'flightClass': _selectedClass,
       'priceRange': _priceRange,
       'airline': _airlineController.text.isNotEmpty
           ? _airlineController.text
           : null,
+      'travelClass': _travelClass,
     };
 
     try {
@@ -207,44 +256,11 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
     }
   }
 
-  Widget _buildClassChip(FlightClass flightClass, String label) {
-    final isSelected = _selectedClass == flightClass;
-    return GestureDetector(
-      onTap: _isApplying
-          ? null
-          : () {
-              setState(() {
-                if (isSelected) {
-                  _selectedClass = null;
-                } else {
-                  _selectedClass = flightClass;
-                }
-              });
-            },
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-        decoration: BoxDecoration(
-          color: isSelected ? AppColors.primary : AppColors.inputBackground,
-          borderRadius: BorderRadius.circular(20.r),
-          border: Border.all(
-            color: isSelected ? AppColors.primary : AppColors.inputBorder,
-          ),
-        ),
-        child: Text(
-          label,
-          style: AppTextStyles.body.copyWith(
-            color: isSelected ? AppColors.white : AppColors.textPrimary,
-          ),
-        ),
-      ),
-    );
-  }
-
   void _clearFilters() {
     setState(() {
-      _selectedClass = null;
       _priceRange = RangeValues(0, widget.maxPossiblePrice);
       _airlineController.clear();
+      _travelClass = null;
     });
   }
 

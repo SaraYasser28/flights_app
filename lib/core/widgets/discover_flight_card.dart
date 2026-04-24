@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../constants/app_icons.dart';
 import '../data/models/flight_model.dart';
-import '../data/models/enum/flight_class.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_text_style.dart';
 
@@ -23,6 +22,9 @@ class DiscoverFlightCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isBusiness =
+        flight.firstSegment.travelClass.toLowerCase() == 'business';
+
     return Container(
       padding: EdgeInsets.all(18.w),
       decoration: BoxDecoration(
@@ -51,7 +53,15 @@ class DiscoverFlightCard extends StatelessWidget {
                       color: AppColors.redHue,
                       borderRadius: BorderRadius.circular(16.r),
                     ),
-                    child: SvgPicture.asset(AppIcons.british, width: 15.w),
+                    child: flight.airlineLogo != null
+                        ? Image.network(
+                            flight.airlineLogo!,
+                            width: 24.w,
+                            height: 24.w,
+                            errorBuilder: (_, _, _) =>
+                                SvgPicture.asset(AppIcons.british, width: 24.w),
+                          )
+                        : SvgPicture.asset(AppIcons.british, width: 24.w),
                   ),
                   SizedBox(width: 8.w),
                   Column(
@@ -77,7 +87,7 @@ class DiscoverFlightCard extends StatelessWidget {
                   ),
                 ],
               ),
-              _buildClassBadge(),
+              _buildClassBadge(isBusiness),
             ],
           ),
 
@@ -88,15 +98,17 @@ class DiscoverFlightCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               _buildAirportInfo(
-                time: flight.departureTime,
-                airport: flight.departureAirport,
+                time: flight.formattedDepartureTime,
+                airport: flight.firstSegment.departure,
               ),
               SizedBox(width: 12.w),
-              Expanded(child: _buildTimeline(duration: flight.duration)),
+              Expanded(
+                child: _buildTimeline(duration: flight.formattedDuration),
+              ),
               SizedBox(width: 12.w),
               _buildAirportInfo(
-                time: flight.arrivalTime,
-                airport: flight.arrivalAirport,
+                time: flight.formattedArrivalTime,
+                airport: flight.lastSegment.arrival,
                 alignRight: true,
               ),
             ],
@@ -160,21 +172,17 @@ class DiscoverFlightCard extends StatelessWidget {
     );
   }
 
-  Widget _buildClassBadge() {
+  Widget _buildClassBadge(bool isBusiness) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
       decoration: BoxDecoration(
-        color: flight.flightClass == FlightClass.business
-            ? AppColors.orangeHue
-            : AppColors.blueHue,
+        color: isBusiness ? AppColors.orangeHue : AppColors.blueHue,
         borderRadius: BorderRadius.circular(20.r),
       ),
       child: Text(
-        flight.flightClass.displayName,
+        flight.firstSegment.travelClass.toUpperCase(),
         style: TextStyle(
-          color: flight.flightClass == FlightClass.business
-              ? AppColors.orange
-              : AppColors.primary,
+          color: isBusiness ? AppColors.orange : AppColors.primary,
           fontSize: 11.sp,
           fontWeight: FontWeight.w600,
         ),
@@ -182,9 +190,8 @@ class DiscoverFlightCard extends StatelessWidget {
     );
   }
 
-  // Update _buildAirportInfo to use airport objects
   Widget _buildAirportInfo({
-    required Airport airport,
+    required dynamic airport,
     required String time,
     bool alignRight = false,
   }) {
@@ -255,7 +262,7 @@ class DiscoverFlightCard extends StatelessWidget {
         ),
         SizedBox(height: 4.h),
         Text(
-          "Non-stop",
+          flight.stopsLabel,
           style: AppTextStyles.primaryLink.copyWith(fontSize: 10.sp),
         ),
       ],

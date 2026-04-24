@@ -12,6 +12,9 @@ class FlightTimeline extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final departure = flight.firstSegment.departure;
+    final arrival = flight.lastSegment.arrival;
+
     return Container(
       color: Colors.white,
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
@@ -31,7 +34,7 @@ class FlightTimeline extends StatelessWidget {
                     shape: BoxShape.circle,
                   ),
                   child: SvgPicture.asset(
-                    flight.departureAirport.iconAsset,
+                    AppIcons.france,
                     width: 18.w,
                     colorFilter: const ColorFilter.mode(
                       AppColors.primary,
@@ -41,7 +44,7 @@ class FlightTimeline extends StatelessWidget {
                 ),
                 SizedBox(height: 4.h),
                 Container(
-                  height: 75.h,
+                  height: 100.h,
                   width: 1.5.w,
                   color: AppColors.inputBorder,
                 ),
@@ -83,7 +86,7 @@ class FlightTimeline extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            flight.departureTime,
+                            flight.formattedDepartureTime,
                             style: TextStyle(
                               fontSize: 18.sp,
                               fontWeight: FontWeight.bold,
@@ -91,7 +94,7 @@ class FlightTimeline extends StatelessWidget {
                           ),
                           SizedBox(height: 4.h),
                           Text(
-                            '${flight.departureAirport.name}, ${flight.departureAirport.city}',
+                            '${departure.name}, ${departure.code}',
                             style: TextStyle(
                               color: AppColors.grey,
                               fontSize: 12.sp,
@@ -105,7 +108,7 @@ class FlightTimeline extends StatelessWidget {
                     Flexible(
                       flex: 1,
                       child: Text(
-                        flight.departureAirport.code,
+                        departure.code,
                         style: TextStyle(
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500,
@@ -118,7 +121,7 @@ class FlightTimeline extends StatelessWidget {
                 SizedBox(height: 24.h),
                 Center(
                   child: Text(
-                    flight.duration.toUpperCase(),
+                    flight.formattedDuration,
                     style: const TextStyle(color: AppColors.grey),
                   ),
                 ),
@@ -134,7 +137,7 @@ class FlightTimeline extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            flight.arrivalTime,
+                            flight.formattedArrivalTime,
                             style: TextStyle(
                               fontSize: 18.sp,
                               fontWeight: FontWeight.bold,
@@ -142,7 +145,7 @@ class FlightTimeline extends StatelessWidget {
                           ),
                           SizedBox(height: 4.h),
                           Text(
-                            '${flight.arrivalAirport.name}, ${flight.arrivalAirport.city}',
+                            '${arrival.name}, ${arrival.code}',
                             style: TextStyle(
                               color: AppColors.grey,
                               fontSize: 12.sp,
@@ -156,7 +159,7 @@ class FlightTimeline extends StatelessWidget {
                     Flexible(
                       flex: 1,
                       child: Text(
-                        flight.arrivalAirport.code,
+                        arrival.code,
                         style: TextStyle(
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500,

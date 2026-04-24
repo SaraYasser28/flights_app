@@ -34,25 +34,31 @@ class FavoritesCubit extends Cubit<FavoritesState> {
     return _favoriteIds.contains(flightId);
   }
 
-  Future<void> addToFavorites(String flightId) async {
-    final result = await _flightRepository.addToFavorites(_userId, flightId);
+  Future<void> addToFavorites(FlightModel flight) async {
+    final result = await _flightRepository.addToFavorites(_userId, flight);
+
     result.fold((error) => emit(FavoritesError(error)), (_) => loadFavorites());
   }
 
   Future<void> removeFromFavorites(String flightId) async {
-    final result = await _flightRepository.removeFromFavorites(
-      _userId,
-      flightId,
+    final currentState = state;
+    if (currentState is! FavoritesLoaded) return;
+
+    final flight = currentState.favoriteFlights.firstWhere(
+      (f) => f.id == flightId,
     );
+
+    final result = await _flightRepository.removeFromFavorites(_userId, flight);
+
     result.fold((error) => emit(FavoritesError(error)), (_) => loadFavorites());
   }
 
-  Future<void> toggleFavorite(String flightId) async {
-    final isCurrentlyFavorite = _favoriteIds.contains(flightId);
+  Future<void> toggleFavorite(FlightModel flight) async {
+    final isCurrentlyFavorite = _favoriteIds.contains(flight.id);
     if (isCurrentlyFavorite) {
-      await removeFromFavorites(flightId);
+      await removeFromFavorites(flight.id);
     } else {
-      await addToFavorites(flightId);
+      await addToFavorites(flight);
     }
   }
 }

@@ -15,6 +15,7 @@ class FlightRepositoryImpl implements FlightRepository {
     String? to,
     DateTime? date,
     int? passengers,
+    int? travelClass,
   }) async {
     try {
       final flights = await _flightService.getFlights(
@@ -22,6 +23,7 @@ class FlightRepositoryImpl implements FlightRepository {
         to: to,
         date: date,
         passengers: passengers,
+        travelClass: travelClass,
       );
       return Right(flights);
     } catch (e) {
@@ -42,22 +44,12 @@ class FlightRepositoryImpl implements FlightRepository {
   }
 
   @override
-  Future<Either<String, FlightModel?>> getFlightById(String flightId) async {
-    try {
-      final flight = await _flightService.getFlightById(flightId);
-      return Right(flight);
-    } catch (e) {
-      return Left('Flight not found');
-    }
-  }
-
-  @override
   Future<Either<String, void>> addToFavorites(
     String userId,
-    String flightId,
+    FlightModel flight,
   ) async {
     try {
-      await _flightService.addToFavorites(userId, flightId);
+      await _flightService.addToFavorites(userId, flight);
       return const Right(null);
     } catch (e) {
       return Left('Add favorite failed');
@@ -67,10 +59,10 @@ class FlightRepositoryImpl implements FlightRepository {
   @override
   Future<Either<String, void>> removeFromFavorites(
     String userId,
-    String flightId,
+    FlightModel flight,
   ) async {
     try {
-      await _flightService.removeFromFavorites(userId, flightId);
+      await _flightService.removeFromFavorites(userId, flight);
       return const Right(null);
     } catch (e) {
       return Left('Remove favorite failed');

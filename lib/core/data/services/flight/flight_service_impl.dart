@@ -1,7 +1,6 @@
 import '../../../api/api_consumer.dart';
 import '../../../constants/api_constants.dart';
 import '../../models/flight_model.dart';
-import '../../models/mock_flight_data.dart';
 import '../fav/favorite_service.dart';
 import 'flight_service.dart';
 
@@ -16,56 +15,55 @@ class FlightServiceImpl implements FlightService {
     String? to,
     DateTime? date,
     int? passengers,
+    int? travelClass,
   }) async {
-    final response = await api.get(
-      ApiConstants.baseUrl,
-      queryParameters: {
-        "api_key": ApiConstants.serpApiKey,
-        "departure_id": from,
-        "arrival_id": to,
-        "outbound_date": date?.toIso8601String().split('T').first,
-        "adults": passengers ?? 1,
-        "currency": "USD",
-      },
-    );
+    final departureId = from ?? 'CDG';
+    final arrivalId = to ?? 'AUS';
+    final outboundDate = date ?? DateTime.now();
 
-    final flightsJson = response['best_flights'] ?? [];
-
-    return flightsJson
-        .map<FlightModel>((json) => FlightModel.fromApi(json))
-        .toList();
-  }
-
-  @override
-  Future<List<FlightModel>> getFavoriteFlights(String userId) async {
-    return await _favoriteService.getFavoriteFlights(
-      userId,
-      MockFlightData.flights,
-    );
-  }
-
-  @override
-  Future<FlightModel?> getFlightById(String flightId) async {
-    await Future.delayed(const Duration(milliseconds: 500));
     try {
-      return MockFlightData.flights.firstWhere((f) => f.id == flightId);
+      final response = await api.get(
+        ApiConstants.baseUrl,
+        queryParameters: {
+          "engine": "google_flights",
+          "api_key": ApiConstants.serpApiKey,
+          "departure_id": departureId,
+          "arrival_id": arrivalId,
+          "outbound_date": outboundDate.toIso8601String().split('T').first,
+          "adults": passengers ?? 1,
+          "currency": "USD",
+          "type": "2",
+          "travel_class": travelClass,
+        },
+      );
+
+      final bestFlightsJson = (response['best_flights'] as List?) ?? [];
+      final otherFlightsJson = (response['other_flights'] as List?) ?? [];
+
+      final allFlights = <FlightModel>[
+        ...bestFlightsJson.map((json) => FlightModel.fromApi(json)),
+        ...otherFlightsJson.map((json) => FlightModel.fromApi(json)),
+      ];
+
+      return allFlights;
     } catch (e) {
-      return null;
+      // If API fails, return empty list so UI can show error/retry
+      return [];
     }
   }
 
   @override
-  Future<void> addToFavorites(String userId, String flightId) async {
-    await _favoriteService.addFavorite(userId, flightId);
+  Future<List<FlightModel>> getFavoriteFlights(String userId) async {
+    return await _favoriteService.getFavoriteFlights(userId);
   }
 
   @override
-  Future<void> removeFromFavorites(String userId, String flightId) async {
-    await _favoriteService.removeFavorite(userId, flightId);
+  Future<void> addToFavorites(String userId, FlightModel flight) async {
+    await _favoriteService.addFavorite(userId, flight);
   }
 
   @override
-  Future<bool> isFavorite(String userId, String flightId) async {
-    return _favoriteService.isFavorite(userId, flightId);
+  Future<void> removeFromFavorites(String userId, FlightModel flight) async {
+    await _favoriteService.removeFavorite(userId, flight.id);
   }
 }

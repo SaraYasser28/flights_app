@@ -185,8 +185,8 @@ class FavoritesScreen extends StatelessWidget {
                             final confirm =
                                 await FavoriteDialog.showRemoveConfirmation(
                                   context,
-                                  fromCity: flight.fromCity,
-                                  toCity: flight.toCity,
+                                  fromCity: flight.firstSegment.departure.name,
+                                  toCity: flight.firstSegment.arrival.name,
                                 );
                             if (confirm == true && context.mounted) {
                               context

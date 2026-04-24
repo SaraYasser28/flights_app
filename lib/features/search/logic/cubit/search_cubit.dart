@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/data/models/enum/flight_class.dart';
 import '../../../../core/data/models/flight_model.dart';
 import '../../../../core/data/repositories/flight/flight_repository.dart';
 import 'package:equatable/equatable.dart';
@@ -10,9 +9,9 @@ part 'search_state.dart';
 class SearchCubit extends Cubit<SearchState> {
   final FlightRepository _repository;
   List<FlightModel> _allFlights = [];
-  FlightClass? _currentFlightClass;
   RangeValues? _currentPriceRange;
   String? _currentAirline;
+  int? _currentTravelClass;
 
   SearchCubit({required FlightRepository repository})
     : _repository = repository,
@@ -20,9 +19,9 @@ class SearchCubit extends Cubit<SearchState> {
 
   Map<String, dynamic> getCurrentFilters() {
     return {
-      'flightClass': _currentFlightClass,
       'priceRange': _currentPriceRange,
       'airline': _currentAirline,
+      'travelClass': _currentTravelClass,
     };
   }
 
@@ -54,9 +53,11 @@ class SearchCubit extends Cubit<SearchState> {
     Future.delayed(const Duration(milliseconds: 500), () {
       final filteredFlights = _allFlights.where((flight) {
         final searchLower = query.toLowerCase();
+        final fromCity = flight.firstSegment.departure.name.toLowerCase();
+        final toCity = flight.lastSegment.arrival.name.toLowerCase();
         return flight.airline.toLowerCase().contains(searchLower) ||
-            flight.fromCity.toLowerCase().contains(searchLower) ||
-            flight.toCity.toLowerCase().contains(searchLower) ||
+            fromCity.contains(searchLower) ||
+            toCity.contains(searchLower) ||
             flight.from.toLowerCase().contains(searchLower) ||
             flight.to.toLowerCase().contains(searchLower);
       }).toList();
@@ -67,24 +68,18 @@ class SearchCubit extends Cubit<SearchState> {
   }
 
   void applyFilters({
-    FlightClass? flightClass,
     RangeValues? priceRange,
     String? airline,
+    int? travelClass,
   }) async {
-    _currentFlightClass = flightClass;
     _currentPriceRange = priceRange;
     _currentAirline = airline;
+    _currentTravelClass = travelClass;
 
     emit(SearchLoading());
     await Future.delayed(const Duration(milliseconds: 600));
 
     var filteredFlights = List<FlightModel>.from(_allFlights);
-
-    if (flightClass != null) {
-      filteredFlights = filteredFlights
-          .where((f) => f.flightClass == flightClass)
-          .toList();
-    }
 
     if (priceRange != null) {
       filteredFlights = filteredFlights
@@ -100,14 +95,26 @@ class SearchCubit extends Cubit<SearchState> {
           .toList();
     }
 
+    if (travelClass != null) {
+      filteredFlights = filteredFlights.where((f) {
+        final segmentClass = f.firstSegment.travelClass.toLowerCase();
+        if (travelClass == 1) {
+          return segmentClass.contains('economy');
+        } else if (travelClass == 3) {
+          return segmentClass.contains('business');
+        }
+        return true;
+      }).toList();
+    }
+
     _sortFlightsAscending(filteredFlights);
     emit(SearchLoaded(flights: filteredFlights, filtersApplied: true));
   }
 
   void clearFilters() async {
-    _currentFlightClass = null;
     _currentPriceRange = null;
     _currentAirline = null;
+    _currentTravelClass = null;
 
     emit(SearchLoading());
     await Future.delayed(const Duration(milliseconds: 400));
@@ -168,10 +175,7 @@ class SearchCubit extends Cubit<SearchState> {
       await Future.delayed(const Duration(milliseconds: 300));
 
       final sortedFlights = List<FlightModel>.from(currentState.flights)
-        ..sort(
-          (a, b) =>
-              _parseDuration(a.duration).compareTo(_parseDuration(b.duration)),
-        );
+        ..sort((a, b) => a.totalDuration.compareTo(b.totalDuration));
       emit(
         SearchLoaded(
           flights: sortedFlights,
@@ -180,33 +184,5 @@ class SearchCubit extends Cubit<SearchState> {
         ),
       );
     }
-  }
-
-  int _parseDuration(String duration) {
-    duration = duration.toLowerCase().trim();
-    int totalMinutes = 0;
-
-    if (duration.contains('h')) {
-      final hours = RegExp(r'(\d+)h').firstMatch(duration);
-      if (hours != null) {
-        totalMinutes += int.parse(hours.group(1)!) * 60;
-      }
-    }
-
-    if (duration.contains('m')) {
-      final minutes = RegExp(r'(\d+)m').firstMatch(duration);
-      if (minutes != null) {
-        totalMinutes += int.parse(minutes.group(1)!);
-      }
-    }
-
-    if (duration.contains('min') && !duration.contains('h')) {
-      final mins = RegExp(r'(\d+)\s*min').firstMatch(duration);
-      if (mins != null) {
-        totalMinutes = int.parse(mins.group(1)!);
-      }
-    }
-
-    return totalMinutes;
   }
 }

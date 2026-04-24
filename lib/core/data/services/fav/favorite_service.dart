@@ -5,40 +5,38 @@ class FavoriteService {
   factory FavoriteService() => _instance;
   FavoriteService._internal();
 
-  // In-memory storage for favorites
-  final Map<String, Set<String>> _userFavorites = {};
+  final Map<String, List<Map<String, dynamic>>> _store = {};
 
-  Set<String> getFavorites(String userId) {
-    return _userFavorites[userId] ?? {};
+  Future<List<Map<String, dynamic>>> _get(String userId) async {
+    return _store[userId] ?? [];
   }
 
-  Future<void> addFavorite(String userId, String flightId) async {
-    await Future.delayed(const Duration(milliseconds: 200));
-    if (!_userFavorites.containsKey(userId)) {
-      _userFavorites[userId] = {};
+  Future<void> _save(String userId, List<Map<String, dynamic>> data) async {
+    _store[userId] = data;
+  }
+
+  Future<void> addFavorite(String userId, FlightModel flight) async {
+    final data = await _get(userId);
+
+    if (!data.any((e) => e['id'] == flight.id)) {
+      data.add(flight.toJson());
     }
-    _userFavorites[userId]!.add(flightId);
+
+    await _save(userId, data);
   }
 
   Future<void> removeFavorite(String userId, String flightId) async {
-    await Future.delayed(const Duration(milliseconds: 200));
-    if (_userFavorites.containsKey(userId)) {
-      _userFavorites[userId]!.remove(flightId);
-    }
+    final data = await _get(userId);
+    data.removeWhere((e) => e['id'] == flightId);
+    await _save(userId, data);
+  }
+
+  Future<List<FlightModel>> getFavoriteFlights(String userId) async {
+    final data = await _get(userId);
+    return data.map((e) => FlightModel.fromJson(e)).toList();
   }
 
   bool isFavorite(String userId, String flightId) {
-    return _userFavorites[userId]?.contains(flightId) ?? false;
-  }
-
-  Future<List<FlightModel>> getFavoriteFlights(
-    String userId,
-    List<FlightModel> allFlights,
-  ) async {
-    await Future.delayed(const Duration(milliseconds: 300));
-    final favoriteIds = getFavorites(userId);
-    return allFlights
-        .where((flight) => favoriteIds.contains(flight.id))
-        .toList();
+    return _store[userId]?.any((e) => e['id'] == flightId) ?? false;
   }
 }

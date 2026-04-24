@@ -6,15 +6,12 @@ abstract class FlightService {
     String? to,
     DateTime? date,
     int? passengers,
+    int? travelClass,
   });
 
   Future<List<FlightModel>> getFavoriteFlights(String userId);
 
-  Future<FlightModel?> getFlightById(String flightId);
+  Future<void> addToFavorites(String userId, FlightModel flight);
 
-  Future<void> addToFavorites(String userId, String flightId);
-
-  Future<void> removeFromFavorites(String userId, String flightId);
-
-  Future<bool> isFavorite(String userId, String flightId);
+  Future<void> removeFromFavorites(String userId, FlightModel flight);
 }

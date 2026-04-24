@@ -41,6 +41,11 @@ class BuildFlightList extends StatelessWidget {
       itemCount: bookings.length,
       itemBuilder: (context, index) {
         final booking = bookings[index];
+        final flight = booking.flight;
+
+        if (flight == null) {
+          return const SizedBox.shrink();
+        }
 
         return Padding(
           padding: EdgeInsets.only(bottom: 16.h),
@@ -49,11 +54,11 @@ class BuildFlightList extends StatelessWidget {
               Navigator.pushNamed(
                 context,
                 AppRoutes.flightDetails,
-                arguments: booking.flight,
+                arguments: flight,
               );
             },
             child: DiscoverFlightCard(
-              flight: booking.flight,
+              flight: flight,
               bookingReference: booking.bookingReference,
               numberOfPassengers: booking.numberOfPassengers,
               totalPrice: booking.totalPrice,

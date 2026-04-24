@@ -41,7 +41,8 @@ class AppRouter {
       case AppRoutes.flightDetails:
         final flight = settings.arguments as FlightModel;
         return MaterialPageRoute(
-          builder: (_) => FlightDetailsScreen(flightId: flight.id),
+          builder: (_) =>
+              FlightDetailsScreen(flightId: flight.id, flight: flight),
         );
 
       case AppRoutes.favorites:

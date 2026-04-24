@@ -92,14 +92,14 @@ class _BookingScreenState extends State<BookingScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              widget.flight.fromCity,
+                              widget.flight.from,
                               style: TextStyle(
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
                             Text(
-                              widget.flight.departureTime,
+                              widget.flight.formattedDepartureTime,
                               style: TextStyle(
                                 fontSize: 12.sp,
                                 color: AppColors.grey,
@@ -112,14 +112,14 @@ class _BookingScreenState extends State<BookingScreen> {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text(
-                              widget.flight.toCity,
+                              widget.flight.to,
                               style: TextStyle(
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
                             Text(
-                              widget.flight.arrivalTime,
+                              widget.flight.formattedArrivalTime,
                               style: TextStyle(
                                 fontSize: 12.sp,
                                 color: AppColors.grey,
@@ -170,7 +170,7 @@ class _BookingScreenState extends State<BookingScreen> {
 
               SizedBox(height: 20.h),
 
-              /// Passenger Selection - FIXED OVERFLOW
+              /// Passenger Selection
               Container(
                 padding: EdgeInsets.all(16.w),
                 decoration: BoxDecoration(
@@ -195,7 +195,6 @@ class _BookingScreenState extends State<BookingScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        /// Flexible text to prevent overflow
                         Flexible(
                           child: Text(
                             'Number of Passengers',
@@ -206,7 +205,6 @@ class _BookingScreenState extends State<BookingScreen> {
                         ),
                         SizedBox(width: 8.w),
 
-                        /// Passenger counter - fixed width to prevent shrinking
                         Container(
                           constraints: BoxConstraints(minWidth: 100.w),
                           child: Row(
