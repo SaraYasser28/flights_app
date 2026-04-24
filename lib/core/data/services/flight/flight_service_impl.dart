@@ -1,3 +1,5 @@
+import '../../../api/api_consumer.dart';
+import '../../../constants/api_constants.dart';
 import '../../models/flight_model.dart';
 import '../../models/mock_flight_data.dart';
 import '../fav/favorite_service.dart';
@@ -5,6 +7,8 @@ import 'flight_service.dart';
 
 class FlightServiceImpl implements FlightService {
   final FavoriteService _favoriteService = FavoriteService();
+  final ApiConsumer api;
+  FlightServiceImpl({required this.api});
 
   @override
   Future<List<FlightModel>> getFlights({
@@ -13,28 +17,23 @@ class FlightServiceImpl implements FlightService {
     DateTime? date,
     int? passengers,
   }) async {
-    await Future.delayed(const Duration(seconds: 1));
+    final response = await api.get(
+      ApiConstants.baseUrl,
+      queryParameters: {
+        "api_key": ApiConstants.serpApiKey,
+        "departure_id": from,
+        "arrival_id": to,
+        "outbound_date": date?.toIso8601String().split('T').first,
+        "adults": passengers ?? 1,
+        "currency": "USD",
+      },
+    );
 
-    var flights = List<FlightModel>.from(MockFlightData.flights);
+    final flightsJson = response['best_flights'] ?? [];
 
-    if (from != null && from.isNotEmpty) {
-      flights = flights.where((f) => f.from == from).toList();
-    }
-    if (to != null && to.isNotEmpty) {
-      flights = flights.where((f) => f.to == to).toList();
-    }
-    if (date != null) {
-      flights = flights
-          .where(
-            (f) =>
-                f.date.year == date.year &&
-                f.date.month == date.month &&
-                f.date.day == date.day,
-          )
-          .toList();
-    }
-
-    return flights;
+    return flightsJson
+        .map<FlightModel>((json) => FlightModel.fromApi(json))
+        .toList();
   }
 
   @override

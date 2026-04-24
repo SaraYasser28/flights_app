@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/constants/app_images.dart';
-import '../../../../core/data/models/mock_flight_data.dart';
 import '../../../../core/routing/app_routes.dart';
 import '../../../../core/widgets/custom_bottom_nav_bar.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -12,6 +11,7 @@ import '../../../authentication/logic/cubit/auth_cubit.dart';
 import '../../../favorites/logic/cubit/favorites_cubit.dart';
 import '../../../favorites/view/widgets/favorite_dialog.dart';
 import '../../../favorites/view/widgets/favorite_flight_card.dart';
+import '../../../flight details/logic/cubit/flights_cubit.dart';
 import '../../../search/view/widgets/custom_search_bar.dart';
 import '../../../../core/data/models/flight_model.dart';
 
@@ -20,8 +20,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<FlightModel> discoverFlights =
-        MockFlightData.getDiscoverFlights();
     return Scaffold(
       backgroundColor: AppColors.lightGreyBackground,
       bottomNavigationBar: CustomBottomNavBar(
@@ -41,12 +39,10 @@ class HomeScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                /// Header with Dynamic User Info
                 BlocBuilder<AuthCubit, AuthState>(
                   builder: (context, state) {
                     String userName = "Guest";
                     if (state is AuthAuthenticated) {
-                      // Get first name from full name
                       userName = state.user.fullName.split(' ').first;
                     }
 
@@ -200,37 +196,63 @@ class HomeScreen extends StatelessWidget {
                 SizedBox(height: 24.h),
 
                 /// Discover Flights Section
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24.w),
-                  child: Text(
-                    "Discover Flights",
-                    style: AppTextStyles.title.copyWith(fontSize: 18.sp),
-                  ),
-                ),
-                SizedBox(height: 16.h),
-                ListView.builder(
-                  padding: EdgeInsets.symmetric(horizontal: 24.w),
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: discoverFlights.length,
-                  itemBuilder: (context, index) {
-                    final flight = discoverFlights[index];
-                    return Padding(
-                      padding: EdgeInsets.only(bottom: 16.h),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(
-                            context,
-                            AppRoutes.flightDetails,
-                            arguments: flight,
-                          );
-                        },
-                        child: DiscoverFlightCard(flight: flight),
-                      ),
-                    );
+                BlocBuilder<FlightsCubit, FlightsState>(
+                  builder: (context, state) {
+                    if (state is FlightsLoading) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+
+                    if (state is FlightsError) {
+                      return Center(child: Text(state.message));
+                    }
+
+                    if (state is FlightsLoaded) {
+                      final flights = state.flights;
+
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 24.w),
+                            child: Text(
+                              "Discover Flights",
+                              style: AppTextStyles.title.copyWith(
+                                fontSize: 18.sp,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 16.h),
+
+                          ListView.builder(
+                            padding: EdgeInsets.symmetric(horizontal: 24.w),
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: flights.length,
+                            itemBuilder: (context, index) {
+                              final flight = flights[index];
+
+                              return Padding(
+                                padding: EdgeInsets.only(bottom: 16.h),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                      context,
+                                      AppRoutes.flightDetails,
+                                      arguments: flight,
+                                    );
+                                  },
+                                  child: DiscoverFlightCard(flight: flight),
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      );
+                    }
+
+                    return const SizedBox.shrink();
                   },
                 ),
-                SizedBox(height: 24.h),
               ],
             ),
           ),

@@ -22,7 +22,7 @@ class DioConsumer extends ApiConsumer {
       );
       return response.data;
     } on DioException catch (e) {
-      return _handleDioException(e);
+      _handleDioException(e);
     }
   }
 
@@ -40,7 +40,7 @@ class DioConsumer extends ApiConsumer {
       );
       return response.data;
     } on DioException catch (e) {
-      return _handleDioException(e);
+      _handleDioException(e);
     }
   }
 
@@ -58,7 +58,7 @@ class DioConsumer extends ApiConsumer {
       );
       return response.data;
     } on DioException catch (e) {
-      return _handleDioException(e);
+      _handleDioException(e);
     }
   }
 
@@ -76,7 +76,7 @@ class DioConsumer extends ApiConsumer {
       );
       return response.data;
     } on DioException catch (e) {
-      return _handleDioException(e);
+      _handleDioException(e);
     }
   }
 
@@ -94,7 +94,7 @@ class DioConsumer extends ApiConsumer {
       );
       return response.data;
     } on DioException catch (e) {
-      return _handleDioException(e);
+      _handleDioException(e);
     }
   }
 }

@@ -25,7 +25,7 @@ class FlightRepositoryImpl implements FlightRepository {
       );
       return Right(flights);
     } catch (e) {
-      return Left('Failed to load flights: ${e.toString()}');
+      return Left('Flights error: ${e.toString()}');
     }
   }
 
@@ -37,7 +37,7 @@ class FlightRepositoryImpl implements FlightRepository {
       final flights = await _flightService.getFavoriteFlights(userId);
       return Right(flights);
     } catch (e) {
-      return Left('Failed to load favorite flights: ${e.toString()}');
+      return Left('Favorites error: ${e.toString()}');
     }
   }
 
@@ -47,7 +47,7 @@ class FlightRepositoryImpl implements FlightRepository {
       final flight = await _flightService.getFlightById(flightId);
       return Right(flight);
     } catch (e) {
-      return Left('Failed to load flight: ${e.toString()}');
+      return Left('Flight not found');
     }
   }
 
@@ -60,7 +60,7 @@ class FlightRepositoryImpl implements FlightRepository {
       await _flightService.addToFavorites(userId, flightId);
       return const Right(null);
     } catch (e) {
-      return Left('Failed to add to favorites: ${e.toString()}');
+      return Left('Add favorite failed');
     }
   }
 
@@ -73,7 +73,7 @@ class FlightRepositoryImpl implements FlightRepository {
       await _flightService.removeFromFavorites(userId, flightId);
       return const Right(null);
     } catch (e) {
-      return Left('Failed to remove from favorites: ${e.toString()}');
+      return Left('Remove favorite failed');
     }
   }
 }
