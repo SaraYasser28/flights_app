@@ -17,3 +17,16 @@ class FlightsError extends FlightsState {
 
   FlightsError(this.message);
 }
+
+class FlightDetailsLoading extends FlightsState {}
+
+class FlightDetailsLoaded extends FlightsState {
+  final FlightModel flight;
+  FlightDetailsLoaded(this.flight);
+}
+
+class FlightDetailsError extends FlightsState {
+  final String message;
+
+  FlightDetailsError(this.message);
+}

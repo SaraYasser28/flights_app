@@ -104,7 +104,12 @@ class _SearchScreenState extends State<SearchScreen> {
                               borderRadius: BorderRadius.circular(12.r),
                             ),
                           ),
-                          child: const Text('Retry'),
+                          child: Text(
+                            'Retry',
+                            style: AppTextStyles.body.copyWith(
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
                       ],
                     ),

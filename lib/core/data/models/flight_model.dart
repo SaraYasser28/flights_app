@@ -73,16 +73,16 @@ class FlightModel extends Equatable {
       flightNumber: first['flight_number'] ?? '',
 
       departureAirport: Airport(
-        code: first['departure_airport']['id'],
-        name: first['departure_airport']['name'],
+        code: first['departure_airport']['id'] ?? '',
+        name: first['departure_airport']['name'] ?? '',
         city: _extractCity(first['departure_airport']['name']),
         country: '',
         iconAsset: _getAirportIcon(first['departure_airport']['id']),
       ),
 
       arrivalAirport: Airport(
-        code: last['arrival_airport']['id'],
-        name: last['arrival_airport']['name'],
+        code: last['arrival_airport']['id'] ?? '',
+        name: last['arrival_airport']['name'] ?? '',
         city: _extractCity(last['arrival_airport']['name']),
         country: '',
         iconAsset: _getAirportIcon(last['arrival_airport']['id']),

@@ -7,6 +7,7 @@ import '../../features/booking/data/services/booking_service.dart';
 import '../../features/booking/data/services/booking_service_impl.dart';
 import '../../features/booking/logic/cubit/booking_cubit.dart';
 import '../../features/favorites/logic/cubit/favorites_cubit.dart';
+import '../../features/flight details/logic/cubit/flights_cubit.dart';
 import '../../features/search/logic/cubit/search_cubit.dart';
 import '../api/api_consumer.dart';
 import '../api/dio_consumer.dart';
@@ -72,6 +73,10 @@ class AppProviders {
       create: (_) =>
           FavoritesCubit(flightRepository: _flightRepository, userId: _userId)
             ..loadFavorites(),
+    ),
+    BlocProvider<FlightsCubit>(
+      create: (_) =>
+          FlightsCubit(flightRepository: _flightRepository)..getFlights(),
     ),
   ];
 }
